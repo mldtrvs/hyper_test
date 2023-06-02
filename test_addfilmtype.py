@@ -40,8 +40,8 @@ class TestAddfilmtype():
     self.driver.find_element(By.NAME, "type_name").click()
     # 6 | type | name=type_name | test
     self.driver.find_element(By.NAME, "type_name").send_keys("test")
-    WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element(
-      (By.NAME, "type_name"), 'test'))
+    WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element(
+      (By.NAME, "type_name"), "test"))
     # 7 | click | css=#form-332--1_popup_save-button .dx-button-text |
     self.driver.find_element(By.CSS_SELECTOR, "#form-332--1_popup_save-button .dx-button-text").click()
     WebDriverWait(self.driver, 30).until(
