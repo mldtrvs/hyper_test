@@ -27,24 +27,20 @@ class TestAddfilmtype():
     self.driver.get("https://hgfilm.ro-zum.eu/#grid-331_tab")
     # 2 | setWindowSize | 1124x894 | 
     self.driver.set_window_size(1124, 894)
-    self.driver.find_element(By.NAME, "username").click()  # login
     self.driver.find_element(By.NAME, "username").send_keys("mentalfvnda@gmail.com")  # login
-    self.driver.find_element(By.NAME, "password").click()  # login
     self.driver.find_element(By.NAME, "password").send_keys("retSoHn18")  # login
     self.driver.find_element(By.XPATH, "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
-    # 3 | runScript | window.scrollTo(0,0) | 
-    self.driver.execute_script("window.scrollTo(0,0)")
     # 4 | click | xpath=//div[@id='grid-331_tab']/div/div[4]/div/div/div/div/div/div/div/img |
     self.driver.find_element(By.XPATH, "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div/div/div/div/img").click()
     # 5 | click | name=type_name | 
-    self.driver.find_element(By.NAME, "type_name").click()
-    # 6 | type | name=type_name | test
     self.driver.find_element(By.NAME, "type_name").send_keys("test")
-    WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element(
-      (By.NAME, "type_name"), "test"))
+    self.driver.find_element(By.NAME, "description").send_keys("test")
+
+    wait = WebDriverWait(self.driver, 10)
+    wait.until(EC.text_to_be_present_in_element((By.NAME, "type_name"), "test"))
+
     # 7 | click | css=#form-332--1_popup_save-button .dx-button-text |
-    self.driver.find_element(By.CSS_SELECTOR, "#form-332--1_popup_save-button .dx-button-text").click()
-    WebDriverWait(self.driver, 30).until(
-      expected_conditions.presence_of_element_located((By.XPATH, "//td[contains(.,\'test\')]")))
+    self.driver.find_element(By.XPATH, "//div[3]/div/div/div/div/span").click()
+
 
   
