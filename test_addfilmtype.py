@@ -47,6 +47,7 @@ class TestAddfilmtype():
     #wait.until(EC.text_to_be_present_in_element((By.NAME, "type_name"), "test"))
 
     self.driver.find_element(By.NAME, "description").send_keys("test")
+
     self.driver.find_element(By.XPATH, "//div[3]/div/div/div/div/span").click()
 
 
