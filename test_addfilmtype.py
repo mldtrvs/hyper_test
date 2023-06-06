@@ -13,34 +13,42 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class TestAddfilmtype():
   def setup_method(self, method):
-    self.driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option("detach", True)
+    self.driver = webdriver.Chrome(options=options)
     self.driver.implicitly_wait(20)  # gives an implicit wait for 20 seconds
     self.vars = {}
   
-  def teardown_method(self, method):
-    self.driver.quit()
+  #def teardown_method(self, method):
+    #self.driver.quit()
   
   def test_addfilmtype(self):
-    # Test name: add_film_type
-    # Step # | name | target | value
-    # 1 | open | / | 
+
     self.driver.get("https://hgfilm.ro-zum.eu/#grid-331_tab")
-    # 2 | setWindowSize | 1124x894 | 
     self.driver.set_window_size(1124, 894)
     self.driver.find_element(By.NAME, "username").send_keys("mentalfvnda@gmail.com")  # login
     self.driver.find_element(By.NAME, "password").send_keys("retSoHn18")  # login
     self.driver.find_element(By.XPATH, "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
-    # 4 | click | xpath=//div[@id='grid-331_tab']/div/div[4]/div/div/div/div/div/div/div/img |
     self.driver.find_element(By.XPATH, "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div/div/div/div/img").click()
-    # 5 | click | name=type_name | 
+
+    #self.driver.get("https://hgfilm.ro-zum.eu/#form-332--1_popup")
+    #delay = 3  # secondstry:
+    #WebDriverWait(self.driver, delay).until(EC.presence_of_element_located((By.NAME, "type_name")))
+
+    #elements = self.driver.find_elements(By.NAME, "type_name")
+    #assert len(elements) > 0
+    time.sleep(5)
+    #wait = WebDriverWait(self.driver, 20)
+    #wait.until(EC.visibility_of_element_located((By.NAME, "type_name")))
+
     self.driver.find_element(By.NAME, "type_name").send_keys("test")
+
+    #wait = WebDriverWait(self.driver, 20)
+    #wait.until(EC.text_to_be_present_in_element((By.NAME, "type_name"), "test"))
+
     self.driver.find_element(By.NAME, "description").send_keys("test")
-
-    wait = WebDriverWait(self.driver, 10)
-    wait.until(EC.text_to_be_present_in_element((By.NAME, "type_name"), "test"))
-
-    # 7 | click | css=#form-332--1_popup_save-button .dx-button-text |
     self.driver.find_element(By.XPATH, "//div[3]/div/div/div/div/span").click()
+
 
 
   
