@@ -37,7 +37,7 @@ class TestAddfilmtype():
 
     #elements = self.driver.find_elements(By.NAME, "type_name")
     #assert len(elements) > 0
-    time.sleep(5)
+    time.sleep(2)
     #wait = WebDriverWait(self.driver, 20)
     #wait.until(EC.visibility_of_element_located((By.NAME, "type_name")))
 
@@ -49,6 +49,11 @@ class TestAddfilmtype():
     self.driver.find_element(By.NAME, "description").send_keys("test")
 
     self.driver.find_element(By.XPATH, "//div[3]/div/div/div/div/span").click()
+
+    time.sleep(2)
+    self.driver.find_element(By.XPATH, "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div[3]/div/div/div").click()
+    time.sleep(2)
+    self.driver.find_element(By.XPATH, "//div[2]/div/div/div/div/span").click()
 
 
 
