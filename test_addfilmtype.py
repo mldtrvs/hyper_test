@@ -2,6 +2,8 @@
 import pytest
 import time
 import json
+
+import self as self
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -10,51 +12,64 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
+
 
 class TestAddfilmtype():
-  def setup_method(self, method):
-    options = webdriver.ChromeOptions()
-    options.add_experimental_option("detach", True)
-    self.driver = webdriver.Chrome(options=options)
-    self.driver.implicitly_wait(20)  # gives an implicit wait for 20 seconds
-    self.vars = {}
-  
-  #def teardown_method(self, method):
-    #self.driver.quit()
-  
-  def test_addfilmtype(self):
+    def setup_method(self, method):
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option("detach", True)
+        self.driver = webdriver.Chrome(options=options)
+        self.driver.implicitly_wait(20)  # gives an implicit wait for 20 seconds
+        self.vars = {}
 
-    self.driver.get("https://hgfilm.ro-zum.eu/#grid-331_tab")
-    self.driver.set_window_size(1124, 894)
-    self.driver.find_element(By.NAME, "username").send_keys("mentalfvnda@gmail.com")  # login
-    self.driver.find_element(By.NAME, "password").send_keys("retSoHn18")  # login
-    self.driver.find_element(By.XPATH, "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
-    self.driver.find_element(By.XPATH, "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div/div/div/div/img").click()
+    # def teardown_method(self, method):
+    # self.driver.quit()
 
-    #self.driver.get("https://hgfilm.ro-zum.eu/#form-332--1_popup")
-    #delay = 3  # secondstry:
-    #WebDriverWait(self.driver, delay).until(EC.presence_of_element_located((By.NAME, "type_name")))
+    def test_addfilmtype(self):
 
-    #elements = self.driver.find_elements(By.NAME, "type_name")
-    #assert len(elements) > 0
-    time.sleep(2)
-    #wait = WebDriverWait(self.driver, 20)
-    #wait.until(EC.visibility_of_element_located((By.NAME, "type_name")))
+        self.driver.get("https://hgfilm.ro-zum.eu/#grid-331_tab")
+        self.driver.set_window_size(1124, 894)
 
-    self.driver.find_element(By.NAME, "type_name").send_keys("test")
+        # login
+        self.driver.find_element(By.NAME, "username").send_keys("mentalfvnda@gmail.com")  # login
+        self.driver.find_element(By.NAME, "password").send_keys("retSoHn18")  # login
 
-    #wait = WebDriverWait(self.driver, 20)
-    #wait.until(EC.text_to_be_present_in_element((By.NAME, "type_name"), "test"))
+        # open form add text
+        self.driver.find_element(By.XPATH, "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
+        self.driver.find_element(By.XPATH,
+                                 "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div/div/div/div/img").click()
+        time.sleep(2)
+        self.driver.find_element(By.NAME, "type_name").send_keys("eji4t3a4r3")
+        self.driver.find_element(By.XPATH, "//div[3]/div/div/div/div/span").click()
+        time.sleep(2)
 
-    self.driver.find_element(By.NAME, "description").send_keys("test")
+        # search for added element
+        search_input = self.driver.find_element(By.XPATH, "//div[3]/div/div/div/div/div/input")
+        search_input.click()
+        search_input.send_keys("eji4t3a4r3")
+        time.sleep(2)
 
-    self.driver.find_element(By.XPATH, "//div[3]/div/div/div/div/span").click()
+        # Verify if the total entries in the grid equals 1
+        total_records = self.driver.find_element(By.XPATH,
+                                                 "//div[@id='grid-331_tab']/div[2]/div/div/div/div/div")
+        total_records_value = total_records.text
+        expected_count = '1'
 
-    time.sleep(2)
-    self.driver.find_element(By.XPATH, "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div[3]/div/div/div").click()
-    time.sleep(2)
-    self.driver.find_element(By.XPATH, "//div[2]/div/div/div/div/span").click()
+        if expected_count in total_records_value:
+            print("Total records is 1. Proceeding to the next step.")
+            time.sleep(1)
+            # delete record
+            self.driver.find_element(By.XPATH,
+                                     "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div[3]/div/div/div").click()
+            time.sleep(1)
+            self.driver.find_element(By.XPATH,
+                                     "//span[contains(.,'Delete current')]").click()
+            pass
+        else:
+            # Assertion failed, handle the failure or raise an exception
+            raise AssertionError(f"Expected {expected_count} entry, but found {total_records_value} entries.")
 
 
 
-  
+
