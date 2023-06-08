@@ -34,9 +34,21 @@ class TestAddfilmtype():
         # login
         self.driver.find_element(By.NAME, "username").send_keys("mentalfvnda@gmail.com")  # login
         self.driver.find_element(By.NAME, "password").send_keys("retSoHn18")  # login
-
-        # open form add text
         self.driver.find_element(By.XPATH, "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
+        time.sleep(2)
+
+        # close all tabs, open Film type menu
+        self.driver.find_element(By.XPATH, "//div[2]/div/div/div/div/img").click()
+        time.sleep(1)
+        self.driver.find_element(By.XPATH, "//b[contains(.,\'Close all\')]").click()
+        # self.driver.find_element(By.XPATH, "//div[@id=\'toolbar\']/div/div/div/div/div/div/i").click()
+        time.sleep(2)
+        self.driver.find_element(By.XPATH, "//div[@id=\'drawer\']/div/div/div/div[2]/div/div/div[2]/div[6]/div").click()
+        time.sleep(5)
+        self.driver.find_element(By.XPATH, "//a[contains(text(),'Film types')]").click()
+        time.sleep(5)
+
+        # * add new Film type
         self.driver.find_element(By.XPATH,
                                  "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div/div/div/div/img").click()
         time.sleep(2)
@@ -50,7 +62,7 @@ class TestAddfilmtype():
         search_input.send_keys("eji4t3a4r3")
         time.sleep(2)
 
-        # Verify if the total entries in the grid equals 1
+        # Verify if the total records in the grid equals 1
         total_records = self.driver.find_element(By.XPATH,
                                                  "//div[@id='grid-331_tab']/div[2]/div/div/div/div/div")
         total_records_value = total_records.text
@@ -59,6 +71,7 @@ class TestAddfilmtype():
         if expected_count in total_records_value:
             print("Total records is 1. Proceeding to the next step.")
             time.sleep(1)
+
             # delete record
             self.driver.find_element(By.XPATH,
                                      "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div[3]/div/div/div").click()
