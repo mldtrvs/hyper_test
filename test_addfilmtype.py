@@ -3,7 +3,6 @@ import pytest
 import time
 import json
 
-import self as self
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -44,8 +43,16 @@ class TestAddfilmtype():
         # self.driver.find_element(By.XPATH, "//div[@id=\'toolbar\']/div/div/div/div/div/div/i").click()
         time.sleep(2)
         self.driver.find_element(By.XPATH, "//div[@id=\'drawer\']/div/div/div/div[2]/div/div/div[2]/div[6]/div").click()
-        time.sleep(5)
-        self.driver.find_element(By.XPATH, "//a[contains(text(),'Film types')]").click()
+
+        # Click on file type
+        #time.sleep(5)
+        #self.driver.find_element(
+         #   By.XPATH, "//div[@id=\'drawer\']/div/div[1]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/div[12]/div/a"
+        #).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.element_to_be_clickable(
+            (By.XPATH, "//div[@id=\'drawer\']/div/div[1]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/div[12]/div/a")))
+        element.click()
         time.sleep(5)
 
         # * add new Film type
