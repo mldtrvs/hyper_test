@@ -22,7 +22,7 @@ class TestAddfilmtype():
         self.driver.implicitly_wait(20)  # gives an implicit wait for 20 seconds
         self.vars = {}
 
-    # def teardown_method(self, method):
+    def teardown_method(self, method):
     # self.driver.quit()
 
     def test_addfilmtype(self):
@@ -45,10 +45,10 @@ class TestAddfilmtype():
         self.driver.find_element(By.XPATH, "//div[@id=\'drawer\']/div/div/div/div[2]/div/div/div[2]/div[6]/div").click()
 
         # Click on file type
-        #time.sleep(5)
-        #self.driver.find_element(
+        # time.sleep(5)
+        # self.driver.find_element(
          #   By.XPATH, "//div[@id=\'drawer\']/div/div[1]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/div[12]/div/a"
-        #).click()
+        # ).click()
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//div[@id=\'drawer\']/div/div[1]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/div[12]/div/a")))
@@ -86,9 +86,21 @@ class TestAddfilmtype():
             self.driver.find_element(By.XPATH,
                                      "//span[contains(.,'Delete current')]").click()
             pass
+            time.sleep(2)
+            total_records_value = total_records.text
+            expected_count_after_del = '0'
+
+            if expected_count_after_del in total_records_value:
+                print("Total records is 0.")
+
+            else:
+                # Assertion failed, handle the failure or raise an exception
+                raise AssertionError(
+                    f"Expected {expected_count_after_del} record, but found {total_records_value} records.")
+
         else:
             # Assertion failed, handle the failure or raise an exception
-            raise AssertionError(f"Expected {expected_count} entry, but found {total_records_value} entries.")
+            raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
 
 
 
