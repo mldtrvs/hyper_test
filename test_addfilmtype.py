@@ -22,7 +22,7 @@ class TestAddfilmtype():
         self.driver.implicitly_wait(20)  # gives an implicit wait for 20 seconds
         self.vars = {}
 
-    def teardown_method(self, method):
+    #def teardown_method(self, method):
     # self.driver.quit()
 
     def test_addfilmtype(self):
@@ -37,12 +37,13 @@ class TestAddfilmtype():
         time.sleep(2)
 
         # close all tabs, open Film type menu
-        self.driver.find_element(By.XPATH, "//div[2]/div/div/div/div/img").click()
+        self.driver.find_element(By.XPATH, "//div[@aria-label='dropdown']//img[@class='dx-icon']").click()
         time.sleep(1)
-        self.driver.find_element(By.XPATH, "//b[contains(.,\'Close all\')]").click()
+        self.driver.find_element(
+            By.XPATH, "//body[1]/div[6]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]").click()
         # self.driver.find_element(By.XPATH, "//div[@id=\'toolbar\']/div/div/div/div/div/div/i").click()
         time.sleep(2)
-        self.driver.find_element(By.XPATH, "//div[@id=\'drawer\']/div/div/div/div[2]/div/div/div[2]/div[6]/div").click()
+        self.driver.find_element(By.XPATH, "//div[normalize-space()='Directories']").click()
 
         # Click on file type
         # time.sleep(5)
@@ -51,13 +52,13 @@ class TestAddfilmtype():
         # ).click()
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.element_to_be_clickable(
-            (By.XPATH, "//div[@id=\'drawer\']/div/div[1]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/div[12]/div/a")))
+            (By.XPATH, "//a[normalize-space()='Film types']")))
         element.click()
         time.sleep(5)
 
         # * add new Film type
         self.driver.find_element(By.XPATH,
-                                 "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div/div/div/div/img").click()
+                                 "//div[@title='Add']//img[@class='dx-icon']").click()
         time.sleep(2)
         self.driver.find_element(By.NAME, "type_name").send_keys("eji4t3a4r3")
         self.driver.find_element(By.XPATH, "//div[3]/div/div/div/div/span").click()
