@@ -40,9 +40,9 @@ class TestAddGenre():
 
         # Click on Genres
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.element_to_be_clickable(
+        genres = wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//a[contains(.,'Genres')]")))
-        element.click()
+        genres.click()
         time.sleep(5)
 
         # add new Film type
@@ -88,3 +88,6 @@ class TestAddGenre():
         else:
             # Assertion failed, handle the failure or raise an exception
             raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
+        time.sleep(2)
+
+        self.driver.close()
