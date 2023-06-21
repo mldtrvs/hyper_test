@@ -49,7 +49,6 @@ class TestAddfilmtype():
         film_types = wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//a[normalize-space()='Film types']")))
         film_types.click()
-        time.sleep(5)
 
         # add new Film type
         wait = WebDriverWait(self.driver, 10)
@@ -85,11 +84,9 @@ class TestAddfilmtype():
             # delete record
             self.driver.find_element(By.XPATH,
                                      "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div[3]/div/div/div").click()
-            time.sleep(1)
             wait = WebDriverWait(self.driver, 10)
             delete_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(.,'Delete current')]")))
             delete_btn.click()
-            #self.driver.find_element(By.XPATH, "//span[contains(.,'Delete current')]").click()
             pass
             time.sleep(2)
             total_records_value = total_records.text
