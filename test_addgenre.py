@@ -31,14 +31,8 @@ class TestAddGenre():
         self.driver.find_element(By.XPATH, "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
         time.sleep(2)
 
-        self.driver.find_element(By.XPATH, "//div[@aria-label='dropdown']//img[@class='dx-icon']").click()
-        time.sleep(1)
-        self.driver.find_element(
-            By.XPATH, "//b[contains(.,'Close all')]").click()
-        time.sleep(2)
+        # Click on Directories --> Genres
         self.driver.find_element(By.XPATH, "//div[normalize-space()='Directories']").click()
-
-        # Click on Genres
         wait = WebDriverWait(self.driver, 10)
         genres = wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//a[contains(.,'Genres')]")))
