@@ -51,13 +51,13 @@ class TestAddfilmtype():
         film_types.click()
 
         # add new Film type
-        wait = WebDriverWait(self.driver, 10)
+        #wait = WebDriverWait(self.driver, 10)
         add_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@title='Add']//img[@class='dx-icon']")))
         add_btn.click()
         #self.driver.find_element(By.XPATH, "//div[@title='Add']//img[@class='dx-icon']").click()
         time.sleep(2)
         self.driver.find_element(By.NAME, "type_name").send_keys("eji4t3a4r3")
-        wait = WebDriverWait(self.driver, 10)
+        #wait = WebDriverWait(self.driver, 10)
         ok_btn = wait.until(EC.element_to_be_clickable((
             By.XPATH, "//div[@id='form-332--1_popup_save-button']//span[@class='dx-button-text'][normalize-space("
                       ")='Ok']")))
@@ -84,11 +84,10 @@ class TestAddfilmtype():
             # delete record
             self.driver.find_element(By.XPATH,
                                      "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div[3]/div/div/div").click()
-            wait = WebDriverWait(self.driver, 10)
-            delete_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(.,'Delete current')]")))
-            delete_btn.click()
-            pass
             time.sleep(2)
+            self.driver.find_element(By.XPATH, "/html/body/div[7]/div/div[3]/div/div[2]/div[1]/div/div/div").click()
+            pass
+            time.sleep(5)
             total_records_value = total_records.text
             expected_count_after_del = '0'
 
