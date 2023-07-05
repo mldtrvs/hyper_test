@@ -7,15 +7,23 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from application import open_HGfilm, login_HGfilm
 
-
+@pytest.fixture(scope="class")
+def driver(request):
+    driver = open_HGfilm()
+    driver.implicitly_wait(10)
+    request.cls.driver = driver
+    yield driver
+    driver.quit()
 class TestAddfilmtype():
     def setup_method(self):
-        options = webdriver.ChromeOptions()
-        options.add_experimental_option("detach", True)
-        self.driver = webdriver.Chrome(options=options)
+        #options = webdriver.ChromeOptions()
+        #options.add_experimental_option("detach", True)
+
+        self.driver = webdriver.Chrome() #(options=options)
         self.driver.implicitly_wait(60)  # gives an implicit wait for 20 seconds
-        self.vars = {}
+        #self.vars = {}
 
     def teardown_method(self):
         self.driver.quit()
