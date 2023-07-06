@@ -4,22 +4,16 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from fixture.session import SessionHelper
 
 class Application:
     def __init__(self):
         self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(60)
-
+        self.session = SessionHelper(self)
     def open_HGfilm(self):
         self.driver.get("https://hgfilm.ro-zum.eu")
         self.driver.set_window_size(1124, 894)
-
-    def login_HGfilm(self, username, password):
-        self.driver.find_element(By.NAME, "username").send_keys(username)  # login
-        self.driver.find_element(By.NAME, "password").send_keys(password)  # login
-        self.driver.find_element(By.XPATH,
-                                 "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
 
     def go_to_film_types_menu(self):
         # Open Directories --> Film types menu

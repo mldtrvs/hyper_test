@@ -11,8 +11,7 @@ def app(request):
 
 def test_addfilmtype(app):
 
-    app.open_HGfilm()
-    app.login_HGfilm(username="mentalfvnda@gmail.com", password="retSoHn18")
+    app.session.login_HGfilm(username="mentalfvnda@gmail.com", password="retSoHn18")
     #time.sleep(2)
     wait = app.go_to_film_types_menu()
     app.add_new_film_type(wait, film_type="eji4t3a4r3")
