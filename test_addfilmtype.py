@@ -9,13 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from application import open_HGfilm, login_HGfilm
 
-@pytest.fixture(scope="class")
-def driver(request):
-    driver = open_HGfilm()
-    driver.implicitly_wait(10)
-    request.cls.driver = driver
-    yield driver
-    driver.quit()
+
 class TestAddfilmtype():
     def setup_method(self):
         #options = webdriver.ChromeOptions()
