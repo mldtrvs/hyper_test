@@ -13,16 +13,17 @@ class FilmTypeHelper:
     def go_to_film_types_menu(self):
         # Open Directories --> Film types menu
         self.app.driver.find_element(By.XPATH, "//div[normalize-space()='Directories']").click()
-        wait = WebDriverWait(self.app.driver, 10)
+        wait = WebDriverWait(self.app.driver, 20)
         film_types = wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//a[normalize-space()='Film types']")))
         film_types.click()
         return wait
 
     def add_new(self, wait, film_type):
-        add_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@title='Add']//img[@class='dx-icon']")))
+        add_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='grid-331_tab']/div[1]/div["
+                                                                   "4]/div/div/div[1]/div[1]/div/div/div/img")))
         add_btn.click()
-        time.sleep(2)
+        time.sleep(3)
         self.app.driver.find_element(By.NAME, "type_name").send_keys(film_type)
         ok_btn = wait.until(EC.element_to_be_clickable((
             By.XPATH, "//div[@id='form-332--1_popup_save-button']//span[@class='dx-button-text'][normalize-space("
@@ -30,7 +31,8 @@ class FilmTypeHelper:
         ok_btn.click()
 
     def search_for_new_added(self, film_type):
-        search_input = self.app.driver.find_element(By.XPATH, "//div[3]/div/div/div/div/div/input")
+        search_input = self.app.driver.find_element(By.XPATH, "//*[@id='grid-331_tab']/div[1]/div[4]/div/div/div["
+                                                              "3]/div[1]/div/div/div/div[1]/input")
         search_input.click()
         search_input.send_keys(film_type)
         time.sleep(2)

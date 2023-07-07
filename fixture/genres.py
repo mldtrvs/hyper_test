@@ -22,7 +22,7 @@ class GenresHelper:
     def add_new(self, wait, genre):
         # add new Genre
         add_btn = wait.until(EC.element_to_be_clickable((
-            By.XPATH, "//div[@id='grid-9_tab']/div/div[4]/div/div/div/div/div/div/div/img")))
+            By.XPATH, "//*[@id='grid-9_tab']/div[1]/div[4]/div/div/div[1]/div[1]/div/div/div/img")))
         add_btn.click()
         time.sleep(2)
         self.app.driver.find_element(By.NAME, "genre_name_ru").send_keys(genre)
@@ -37,7 +37,7 @@ class GenresHelper:
         search_input.send_keys(genre)
         time.sleep(2)
 
-    def check_if_added_delete_check_if_deleted(self):
+    def check_if_added_delete_check_if_deleted(self, wait):
         total_records = self.app.driver.find_element(By.XPATH, "//div[@id='grid-9_tab_totalCount']")
         total_records_value = total_records.text
         expected_count = '1'
@@ -49,7 +49,10 @@ class GenresHelper:
             self.app.driver.find_element(By.XPATH,
                                          "//div[@id='grid-9_tab']/div/div[4]/div/div/div/div[3]/div/div/div/img").click()
             time.sleep(1)
-            self.app.driver.find_element(By.XPATH, "//span[contains(.,'Delete current')]").click()
+            delete_current = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[7]/div/div[3]/div/div["
+                                                                              "2]/div[1]/div/div/div/span")))
+            delete_current.click()
+            #self.app.driver.find_element(By.XPATH, "//span[contains(.,'Delete current')]").click()
             pass
             time.sleep(2)
             total_records_value = total_records.text
