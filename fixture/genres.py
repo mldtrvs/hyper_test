@@ -17,7 +17,6 @@ class GenresHelper:
         genres = wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//a[contains(.,'Genres')]")))
         genres.click()
-        time.sleep(5)
         return wait
 
     def add_new(self, wait, genre):
