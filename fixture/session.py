@@ -11,4 +11,4 @@ class SessionHelper():
         self.app.driver.find_element(By.NAME, "username").send_keys(username)  # login
         self.app.driver.find_element(By.NAME, "password").send_keys(password)  # login
         self.app.driver.find_element(By.XPATH,
-                                 "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
+                                     "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
