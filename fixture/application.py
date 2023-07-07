@@ -3,6 +3,7 @@ from fixture.filmType import FilmTypeHelper
 from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
 
+
 class Application:
     def __init__(self):
         self.driver = webdriver.Chrome()
