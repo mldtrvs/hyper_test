@@ -1,5 +1,6 @@
 import time
 
+from selenium.common import ElementClickInterceptedException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,7 +13,7 @@ class GenresHelper:
 
     def go_to_genres(self):
         # Click on Directories --> Genres
-        self.app.driver.find_element(By.XPATH, "//div[normalize-space()='Directories']").click()
+        #self.app.driver.find_element(By.XPATH, "//div[normalize-space()='Directories']").click()
         wait = WebDriverWait(self.app.driver, 10)
         genres = wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//a[contains(.,'Genres')]")))
@@ -22,7 +23,7 @@ class GenresHelper:
     def add_new(self, wait, genre):
         # add new Genre
         add_btn = wait.until(EC.element_to_be_clickable((
-            By.XPATH, "//*[@id='grid-9_tab']/div[1]/div[4]/div/div/div[1]/div[1]/div/div/div/img")))
+            By.XPATH, "//*[@id='grid-9_tab']/div[1]/div[4]/div/div/div[1]/div[1]/div/div")))
         add_btn.click()
         time.sleep(2)
         self.app.driver.find_element(By.NAME, "genre_name_ru").send_keys(genre)
