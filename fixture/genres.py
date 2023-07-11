@@ -40,7 +40,7 @@ class GenresHelper:
         time.sleep(2)
 
     def check_if_added_delete_check_if_deleted(self, wait):
-        total_records = self.app.driver.find_element(By.XPATH, "//div[@id='grid-9_tab_totalCount']")
+        total_records = self.app.driver.find_element(By.ID, "grid-9_tab_totalCount")
         total_records_value = total_records.text
         expected_count = '1'
         if expected_count in total_records_value:
