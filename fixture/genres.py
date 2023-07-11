@@ -54,7 +54,6 @@ class GenresHelper:
             delete_current = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[7]/div/div[3]/div/div["
                                                                               "2]/div[1]/div/div/div/span")))
             delete_current.click()
-            #self.app.driver.find_element(By.XPATH, "//span[contains(.,'Delete current')]").click()
             pass
             time.sleep(2)
             total_records_value = total_records.text

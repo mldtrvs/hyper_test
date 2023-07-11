@@ -50,7 +50,7 @@ class VideoFormatHelper:
             self.app.driver.find_element(
                 By.CSS_SELECTOR, "#grid-292_tab [role=toolbar] [buttonrole=delete]").click()
             time.sleep(1)
-            delete_current = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='dx-gesture-cover']")))
+            delete_current = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[2]/div/div/div/div/span")))
             delete_current.click()
             #self.app.driver.find_element(By.XPATH, "//span[contains(.,'Delete current')]").click()
             pass
