@@ -12,8 +12,8 @@ class VideoFormatHelper:
 
     def go_to_video_format(self):
         # Click on Directories --> Genres
-        self.app.driver.find_element(
-            By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(6)>div:first-child").click()
+        # self.app.driver.find_element(
+        #     By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(6)>div:first-child").click()
         wait = WebDriverWait(self.app.driver, 10)
         video_format = wait.until(EC.element_to_be_clickable(
             (By.CSS_SELECTOR, ".panel-list a[href='#grid-292_tab']")))
@@ -32,7 +32,6 @@ class VideoFormatHelper:
         ok_btn.click()
 
     def search_for_new_added(self, video_format):
-        # search for added element
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-292_tab [role=textbox]")
         search_input.click()
         search_input.send_keys(video_format)

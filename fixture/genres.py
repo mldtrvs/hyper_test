@@ -26,14 +26,11 @@ class GenresHelper:
         add_btn.click()
         time.sleep(2)
         self.app.driver.find_element(By.NAME, "genre_name_ru").send_keys(genre)
-        # ok_btn = wait.until(
-        #     EC.element_to_be_clickable((By.XPATH, "//div[@id='form-10--1_popup_save-button']/div/span")))
         ok_btn = wait.until(
             EC.element_to_be_clickable((By.ID, "form-10--1_popup_save-button")))
         ok_btn.click()
 
     def search_for_new_added(self, genre):
-        # search for added element
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-9_tab [role=textbox]")
         search_input.send_keys(genre)
         time.sleep(1)

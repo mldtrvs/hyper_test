@@ -24,11 +24,8 @@ class FilmTypeHelper:
         add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-331_tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
-        time.sleep(3)
+        time.sleep(2)
         self.app.driver.find_element(By.NAME, "type_name").send_keys(film_type)
-        # ok_btn = wait.until(EC.element_to_be_clickable((
-        #     By.XPATH, "//div[@id='form-332--1_popup_save-button']//span[@class='dx-button-text'][normalize-space("
-        #               ")='Ok']")))
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-332--1_popup_save-button')))
         ok_btn.click()
 
@@ -52,7 +49,6 @@ class FilmTypeHelper:
             self.app.driver.find_element(By.CSS_SELECTOR,
                                          "#grid-331_tab [role=toolbar] [buttonrole=delete]").click()
             time.sleep(1)
-            #self.app.driver.find_element(By.CSS_SELECTOR, "[data-button-type='grid-331_tab_delete_current']").click()
             delete_current = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-button-type='grid"
                                                                                      "-331_tab_delete_current']")))
             delete_current.click()
