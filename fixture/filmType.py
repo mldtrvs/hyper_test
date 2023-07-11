@@ -36,9 +36,9 @@ class FilmTypeHelper:
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-331_tab [role=textbox]")
         search_input.click()
         search_input.send_keys(film_type)
-        time.sleep(2)
+        time.sleep(1)
 
-    def check_if_added_delete_check_if_deleted(self):
+    def check_if_added_delete_check_if_deleted(self, wait):
         # Verify if total records in the grid equals 1
         total_records = self.app.driver.find_element(By.ID,
                                                      "grid-331_tab_totalCount")
@@ -51,10 +51,13 @@ class FilmTypeHelper:
             # delete record
             self.app.driver.find_element(By.CSS_SELECTOR,
                                          "#grid-331_tab [role=toolbar] [buttonrole=delete]").click()
-            time.sleep(2)
-            self.app.driver.find_element(By.XPATH, "/html/body/div[7]/div/div[3]/div/div[2]/div[1]/div/div/div").click()
+            time.sleep(1)
+            #self.app.driver.find_element(By.CSS_SELECTOR, "[data-button-type='grid-331_tab_delete_current']").click()
+            delete_current = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-button-type='grid"
+                                                                                     "-331_tab_delete_current']")))
+            delete_current.click()
             pass
-            time.sleep(5)
+            time.sleep(1)
 
             # Verify if total records in the grid equals 0
             total_records_value = total_records.text

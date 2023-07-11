@@ -36,7 +36,7 @@ class VideoFormatHelper:
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-292_tab [role=textbox]")
         search_input.click()
         search_input.send_keys(video_format)
-        time.sleep(2)
+        time.sleep(1)
 
     def check_if_added_delete_check_if_deleted(self, wait):
         total_records = self.app.driver.find_element(By.ID, "grid-292_tab_totalCount")
@@ -50,11 +50,11 @@ class VideoFormatHelper:
             self.app.driver.find_element(
                 By.CSS_SELECTOR, "#grid-292_tab [role=toolbar] [buttonrole=delete]").click()
             time.sleep(1)
-            delete_current = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[2]/div/div/div/div/span")))
+            delete_current = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-button-type='grid"
+                                                                                     "-292_tab_delete_current']")))
             delete_current.click()
-            #self.app.driver.find_element(By.XPATH, "//span[contains(.,'Delete current')]").click()
             pass
-            time.sleep(2)
+            time.sleep(1)
             total_records_value = total_records.text
             expected_count_after_del = '0'
 

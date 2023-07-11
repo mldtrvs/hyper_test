@@ -6,5 +6,5 @@ def test_addfilmtype(app):
     app.filmType.add_new(wait, "eji4t3a4r3")
     time.sleep(4)
     app.filmType.search_for_new_added("eji4t3a4r3")
-    app.filmType.check_if_added_delete_check_if_deleted()
+    app.filmType.check_if_added_delete_check_if_deleted(wait)
 
