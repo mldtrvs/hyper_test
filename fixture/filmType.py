@@ -12,10 +12,11 @@ class FilmTypeHelper:
 
     def go_to_film_types_menu(self):
         # Open Directories --> Film types menu
-        self.app.driver.find_element(By.XPATH, "//div[normalize-space()='Directories']").click()
+        self.app.driver.find_element(
+            By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(6)>div:first-child").click()
         wait = WebDriverWait(self.app.driver, 20)
         film_types = wait.until(EC.element_to_be_clickable(
-            (By.XPATH, "//a[normalize-space()='Film types']")))
+            (By.CSS_SELECTOR, ".panel-list a[href='#grid-331_tab']")))
         film_types.click()
         return wait
 
@@ -32,16 +33,15 @@ class FilmTypeHelper:
         ok_btn.click()
 
     def search_for_new_added(self, film_type):
-        search_input = self.app.driver.find_element(By.XPATH, "//*[@id='grid-331_tab']/div[1]/div[4]/div/div/div["
-                                                              "3]/div[1]/div/div/div/div[1]/input")
+        search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-331_tab [role=textbox]")
         search_input.click()
         search_input.send_keys(film_type)
         time.sleep(2)
 
     def check_if_added_delete_check_if_deleted(self):
         # Verify if total records in the grid equals 1
-        total_records = self.app.driver.find_element(By.XPATH,
-                                                     "//div[@id='grid-331_tab']/div[2]/div/div/div/div/div")
+        total_records = self.app.driver.find_element(By.ID,
+                                                     "grid-331_tab_totalCount")
         total_records_value = total_records.text
         expected_count = '1'
         if expected_count in total_records_value:
@@ -49,8 +49,8 @@ class FilmTypeHelper:
             time.sleep(1)
 
             # delete record
-            self.app.driver.find_element(By.XPATH,
-                                         "//div[@id=\'grid-331_tab\']/div/div[4]/div/div/div/div[3]/div/div/div").click()
+            self.app.driver.find_element(By.CSS_SELECTOR,
+                                         "#grid-331_tab [role=toolbar] [buttonrole=delete]").click()
             time.sleep(2)
             self.app.driver.find_element(By.XPATH, "/html/body/div[7]/div/div[3]/div/div[2]/div[1]/div/div/div").click()
             pass
