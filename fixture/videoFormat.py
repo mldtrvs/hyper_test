@@ -12,8 +12,6 @@ class VideoFormatHelper:
 
     def go_to_video_format(self):
         # Click on Directories --> Genres
-        # self.app.driver.find_element(
-        #     By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(6)>div:first-child").click()
         directories_dropdown = self.app.driver.find_element(By.CSS_SELECTOR,
                                                             ".panel-list [role=listbox]>div:nth-child("
                                                             "6)>.dx-list-group-body")

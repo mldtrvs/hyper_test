@@ -1,4 +1,6 @@
 from selenium import webdriver
+
+from fixture.documentType import DocumentTypeHelper
 from fixture.filmType import FilmTypeHelper
 from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
@@ -13,6 +15,7 @@ class Application:
         self.filmType = FilmTypeHelper(self)
         self.genres = GenresHelper(self)
         self.videoFormat = VideoFormatHelper(self)
+        self.documentType = DocumentTypeHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://hgfilm.ro-zum.eu")

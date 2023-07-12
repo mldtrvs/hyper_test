@@ -12,8 +12,6 @@ class FilmTypeHelper:
 
     def go_to_film_types_menu(self):
         # Open Directories --> Film types menu
-        # self.app.driver.find_element(
-        #     By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(6)>div:first-child").click()
         directories_dropdown = self.app.driver.find_element(By.CSS_SELECTOR,
                                                             ".panel-list [role=listbox]>div:nth-child("
                                                             "6)>.dx-list-group-body")
