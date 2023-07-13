@@ -5,12 +5,12 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class ageRestrictionHelper:
+class legalFormHelper:
 
     def __init__(self, app):
         self.app = app
 
-    def go_to_age_restrictions(self):
+    def go_to_legal_forms(self):
         # Open Directories --> address types menu
         directories_dropdown = self.app.driver.find_element(By.CSS_SELECTOR,
                                                             ".panel-list [role=listbox]>div:nth-child("
@@ -20,30 +20,30 @@ class ageRestrictionHelper:
                 By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(6)>div:first-child")
             directories.click()
         wait = WebDriverWait(self.app.driver, 20)
-        age_restrictions = wait.until(EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, ".panel-list a[href='#grid-333_tab']")))
-        age_restrictions.click()
+        legal_forms = wait.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, ".panel-list a[href='#grid-342_tab']")))
+        legal_forms.click()
         return wait
 
-    def add_new(self, wait, age_restriction):
-        add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-333_tab [role=toolbar] ["
+    def add_new(self, wait, legal_form_name):
+        add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-342_tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
         time.sleep(2)
-        self.app.driver.find_element(By.NAME, "age_limit").send_keys(age_restriction)
-        ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-334--1_popup_save-button')))
+        self.app.driver.find_element(By.NAME, "form_name").send_keys(legal_form_name)
+        ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-344--1_popup_save-button')))
         ok_btn.click()
 
-    def search_for_new_added(self, age_restriction):
-        search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-333_tab [role=textbox]")
+    def search_for_new_added(self, legal_form_name):
+        search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-342_tab [role=textbox]")
         search_input.click()
-        search_input.send_keys(age_restriction)
+        search_input.send_keys(legal_form_name)
         time.sleep(1)
 
     def check_if_added_delete_check_if_deleted(self, wait):
         # Verify if total records in the grid equals 1
         total_records = self.app.driver.find_element(By.ID,
-                                                     "grid-333_tab_totalCount")
+                                                     "grid-342_tab_totalCount")
         total_records_value = total_records.text
         expected_count = '1'
         if expected_count in total_records_value:
@@ -52,10 +52,10 @@ class ageRestrictionHelper:
 
             # delete record
             self.app.driver.find_element(By.CSS_SELECTOR,
-                                         "#grid-333_tab [role=toolbar] [buttonrole=delete]").click()
+                                         "#grid-342_tab [role=toolbar] [buttonrole=delete]").click()
             time.sleep(1)
             delete_current = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-button-type='grid"
-                                                                                     "-333_tab_delete_current']")))
+                                                                                     "-342_tab_delete_current']")))
             delete_current.click()
             pass
             time.sleep(1)

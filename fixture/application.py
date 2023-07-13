@@ -4,6 +4,7 @@ from fixture.addressType import addressTypeHelper
 from fixture.ageRestrictions import ageRestrictionHelper
 from fixture.documentType import DocumentTypeHelper
 from fixture.filmType import FilmTypeHelper
+from fixture.legalForms import legalFormHelper
 from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
 from fixture.videoFormat import VideoFormatHelper
@@ -21,6 +22,7 @@ class Application:
         self.documentType = DocumentTypeHelper(self)
         self.addressType = addressTypeHelper(self)
         self.ageRestrictions = ageRestrictionHelper(self)
+        self.legalForms = legalFormHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://hgfilm.ro-zum.eu")

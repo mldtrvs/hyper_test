@@ -10,8 +10,7 @@ class SessionHelper:
         self.app.open_HGfilm()
         self.app.driver.find_element(By.NAME, "username").send_keys(username)  # login
         self.app.driver.find_element(By.NAME, "password").send_keys(password)  # login
-        self.app.driver.find_element(By.XPATH,
-                                     "//div[@id='mylsAuthForm']/div/div/div/div[3]/div/div/div/div/span").click()
+        self.app.driver.find_element(By.CSS_SELECTOR, "#mylsAuthForm [role=button]").click()
 
     # def logout_HGfilm(self):
     #     self.app.driver.find_element(By.XPATH, "//div[@class='dx-context-menu-container-border").click()
