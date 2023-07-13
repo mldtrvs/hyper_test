@@ -58,7 +58,7 @@ class DocumentTypeHelper:
                                                                                      "-294_tab_delete_current']")))
             delete_current.click()
             pass
-            time.sleep(1)
+            time.sleep(2)
 
             # Verify if total records in the grid equals 0
             total_records_value = total_records.text

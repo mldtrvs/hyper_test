@@ -1,7 +1,7 @@
 import time
 
 
-def test_adddocumenttype(app):
+def test_addDocumentType(app):
     wait = app.documentType.go_to_document_types()
     app.documentType.add_new(wait, "yljw72lkdjek")
     time.sleep(2)

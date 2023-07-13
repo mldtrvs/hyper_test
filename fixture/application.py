@@ -1,11 +1,12 @@
 from selenium import webdriver
 
+from fixture.addressType import addressTypeHelper
 from fixture.documentType import DocumentTypeHelper
 from fixture.filmType import FilmTypeHelper
 from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
 from fixture.videoFormat import VideoFormatHelper
-from test.test_addAddressType import addressTypeHelper
+
 
 
 class Application:

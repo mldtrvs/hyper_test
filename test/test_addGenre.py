@@ -1,7 +1,7 @@
 import time
 
 
-def test_addgenre(app):
+def test_addGenre(app):
     wait = app.genres.go_to_genres()
     app.genres.add_new(wait, "pyuic5456dsc")
     time.sleep(2)

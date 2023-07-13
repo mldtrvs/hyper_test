@@ -1,7 +1,7 @@
 import time
 
 
-def test_addvideoFormat(app):
+def test_addVideoFormat(app):
     wait = app.videoFormat.go_to_video_format()
     app.videoFormat.add_new(wait, "rtree332weq")
     time.sleep(2)

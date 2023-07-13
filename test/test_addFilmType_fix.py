@@ -1,7 +1,7 @@
 import time
 
 
-def test_addfilmtype(app):
+def test_addFilmType(app):
     wait = app.filmType.go_to_film_types_menu()
     app.filmType.add_new(wait, "eji4t3a4r3")
     time.sleep(4)
