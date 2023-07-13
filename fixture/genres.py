@@ -12,13 +12,13 @@ class GenresHelper:
 
     def go_to_genres(self):
         # Click on Directories --> Genres
-        directories_dropdown = self.app.driver.find_element(By.CSS_SELECTOR,
-                                                            ".panel-list [role=listbox]>div:nth-child("
-                                                            "6)>.dx-list-group-body")
-        if not directories_dropdown.is_displayed():
-            directories = self.app.driver.find_element(
-                By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(6)>div:first-child")
-            directories.click()
+        # directories_dropdown = self.app.driver.find_element(By.CSS_SELECTOR,
+        #                                                     ".panel-list [role=listbox]>div:nth-child("
+        #                                                     "6)>.dx-list-group-body")
+        # if not directories_dropdown.is_displayed():
+        #     directories = self.app.driver.find_element(
+        #         By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(6)>div:first-child")
+        #     directories.click()
         wait = WebDriverWait(self.app.driver, 10)
         genres = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-9_tab']")))
         genres.click()

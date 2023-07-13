@@ -2,6 +2,7 @@ import time
 
 
 def test_addAddressType(app):
+    app.menuCategories.go_to_directories()
     wait = app.addressType.go_to_address_types()
     app.addressType.add_new(wait, "kamxc123masd")
     time.sleep(2)

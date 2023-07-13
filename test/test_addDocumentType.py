@@ -2,6 +2,7 @@ import time
 
 
 def test_addDocumentType(app):
+    app.menuCategories.go_to_directories()
     wait = app.documentType.go_to_document_types()
     app.documentType.add_new(wait, "yljw72lkdjek")
     time.sleep(2)
