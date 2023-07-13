@@ -5,6 +5,7 @@ from fixture.filmType import FilmTypeHelper
 from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
 from fixture.videoFormat import VideoFormatHelper
+from test.test_addAddressType import addressTypeHelper
 
 
 class Application:
@@ -16,6 +17,7 @@ class Application:
         self.genres = GenresHelper(self)
         self.videoFormat = VideoFormatHelper(self)
         self.documentType = DocumentTypeHelper(self)
+        self.addressType = addressTypeHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://hgfilm.ro-zum.eu")
