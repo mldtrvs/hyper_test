@@ -1,6 +1,7 @@
 from selenium import webdriver
 
 from fixture.addressType import addressTypeHelper
+from fixture.ageRestrictions import ageRestrictionHelper
 from fixture.documentType import DocumentTypeHelper
 from fixture.filmType import FilmTypeHelper
 from fixture.session import SessionHelper
@@ -19,6 +20,7 @@ class Application:
         self.videoFormat = VideoFormatHelper(self)
         self.documentType = DocumentTypeHelper(self)
         self.addressType = addressTypeHelper(self)
+        self.ageRestrictions = ageRestrictionHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://hgfilm.ro-zum.eu")
