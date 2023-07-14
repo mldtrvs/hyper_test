@@ -8,6 +8,7 @@ from fixture.legalForms import legalFormHelper
 from fixture.menu_category_selector import menuCategorySelectorHelper
 from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
+from fixture.statuses import statusesHelper
 from fixture.videoFormat import VideoFormatHelper
 
 
@@ -25,6 +26,7 @@ class Application:
         self.ageRestrictions = ageRestrictionHelper(self)
         self.legalForms = legalFormHelper(self)
         self.menuCategories = menuCategorySelectorHelper(self)
+        self.statuses = statusesHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://hgfilm.ro-zum.eu")
