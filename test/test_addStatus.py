@@ -1,7 +1,7 @@
 import time
 
 
-def test_addGenre(app):
+def test_addstatus(app):
     app.menuCategories.go_to_directories()
     wait = app.statuses.go_to_statuses()
     app.statuses.add_new(wait, "qwe4345sda")
