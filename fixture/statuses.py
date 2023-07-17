@@ -23,6 +23,11 @@ class statusesHelper:
         add_btn.click()
         time.sleep(2)
         self.app.driver.find_element(By.NAME, "status_name").send_keys(status_name)
+        type_selector = self.app.driver.find_element(By.CSS_SELECTOR, "#form-16--1_popup ["
+                                                                      "name='sys_status_type_id']+div>.dx"
+                                                                      "-dropdowneditor-button")
+        type_selector.click()
+        time.sleep(1)
         ok_btn = wait.until(
             EC.element_to_be_clickable((By.ID, "form-16--1_popup_save-button")))
         ok_btn.click()
