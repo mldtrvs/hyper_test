@@ -26,6 +26,9 @@ class statusesHelper:
         type_selector = self.app.driver.find_element(By.CSS_SELECTOR, "#form-16--1_popup ["
                                                                       "name='sys_status_type_id']+div>.dx"
                                                                       "-dropdowneditor-button")
+
+        # на кино! #form-16--1_popup .data-myls__sys_status_type_id .dx-selectbox кликнуть
+        # после клика найти aria-owns опотом в этом  # dx-e426bd8b-f2c1-cdf5-d69a-3d39bd676f52 и там уже искать элементы списка
         type_selector.click()
         time.sleep(1)
         ok_btn = wait.until(
