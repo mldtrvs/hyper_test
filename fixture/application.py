@@ -10,8 +10,7 @@ from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
 from fixture.statuses import statusesHelper
 from fixture.videoFormat import VideoFormatHelper
-
-
+from fixture.positions import positionsHelper
 
 class Application:
     def __init__(self):
@@ -27,6 +26,7 @@ class Application:
         self.legalForms = legalFormHelper(self)
         self.menuCategories = menuCategorySelectorHelper(self)
         self.statuses = statusesHelper(self)
+        self.positions = positionsHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")
