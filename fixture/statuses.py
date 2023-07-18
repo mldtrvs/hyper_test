@@ -28,7 +28,8 @@ class statusesHelper:
         type_selector.click()
         aria_owns_value = type_selector.get_attribute("aria-owns")
         print(aria_owns_value)
-        status_type = self.app.driver.find_elements(By.CSS_SELECTOR, "#" + aria_owns_value + " [role=listbox] [role=option]")
+        status_type = self.app.driver.find_elements(By.CSS_SELECTOR, "#" + aria_owns_value + "[role=listbox] ["
+                                                                                             "role=option]")
         print(len(status_type))
         # на кино! #form-16--1_popup .data-myls__sys_status_type_id .dx-selectbox кликнуть
         # после клика найти aria-owns опотом в этом  # dx-e426bd8b-f2c1-cdf5-d69a-3d39bd676f52 и там уже искать элементы списка
