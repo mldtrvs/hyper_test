@@ -11,13 +11,13 @@ class positionsHelper:
 
     def go_to_positions(self):
         wait = WebDriverWait(self.app.driver, 20)
-        positions = wait.until(EC.element_to_be_clickable(
+        position = wait.until(EC.element_to_be_clickable(
             (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
-        positions.click()
+        position.click()
         return wait
 
     def add_new(self, wait, position_name):
-        add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-383_tab [role=toolbar] ["
+        add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-383tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
         time.sleep(2)
@@ -25,10 +25,10 @@ class positionsHelper:
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-383--1_popup_save-button')))
         ok_btn.click()
 
-    def search_for_new_added(self, age_restriction):
+    def search_for_new_added(self, position_name):
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-383_tab [role=textbox]")
         search_input.click()
-        search_input.send_keys(age_restriction)
+        search_input.send_keys(position_name)
         time.sleep(1)
 
     def check_if_added_delete_check_if_deleted(self, wait):
