@@ -23,17 +23,20 @@ class statusesHelper:
         add_btn.click()
         time.sleep(2)
         self.app.driver.find_element(By.NAME, "status_name").send_keys(status_name)
-        type_selector = self.app.driver.find_element(By.CSS_SELECTOR, "#form-16--1_popup ["
-                                                                      "name='sys_status_type_id']+div>.dx"
-                                                                      "-dropdowneditor-button")
+        type_selector = self.app.driver.find_element(By.CSS_SELECTOR, "#form-16--1_popup "
+                                                                      ".data-myls__sys_status_type_id .dx-selectbox")
+        type_selector.click()
+        aria_owns_value = type_selector.get_attribute("aria-owns")
+        print(aria_owns_value)
+        type = self.app.driver.find_element(By.CSS_SELECTOR, "#" + aria_owns_value)
 
         # на кино! #form-16--1_popup .data-myls__sys_status_type_id .dx-selectbox кликнуть
         # после клика найти aria-owns опотом в этом  # dx-e426bd8b-f2c1-cdf5-d69a-3d39bd676f52 и там уже искать элементы списка
-        type_selector.click()
-        time.sleep(1)
-        ok_btn = wait.until(
-            EC.element_to_be_clickable((By.ID, "form-16--1_popup_save-button")))
-        ok_btn.click()
+
+        # time.sleep(1)
+        # ok_btn = wait.until(
+        #     EC.element_to_be_clickable((By.ID, "form-16--1_popup_save-button")))
+        # ok_btn.click()
 
     def search_for_new_added(self, genre):
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-15_tab [role=textbox]")

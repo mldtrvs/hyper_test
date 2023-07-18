@@ -38,7 +38,7 @@ class GenresHelper:
     def search_for_new_added(self, genre):
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-9_tab [role=textbox]")
         search_input.send_keys(genre)
-        time.sleep(1)
+        time.sleep(2)
 
     def check_if_added_delete_check_if_deleted(self, wait):
         total_records = self.app.driver.find_element(By.ID, "grid-9_tab_totalCount")
@@ -46,7 +46,7 @@ class GenresHelper:
         expected_count = '1'
         if expected_count in total_records_value:
             print("Total records is 1. Proceeding to deletion.")
-            time.sleep(1)
+            time.sleep(20)
 
             # delete record
             self.app.driver.find_element(By.CSS_SELECTOR,
@@ -56,7 +56,7 @@ class GenresHelper:
                                                                                      "-9_tab_delete_current']")))
             delete_current.click()
             pass
-            time.sleep(1)
+            time.sleep(4)
             total_records_value = total_records.text
             expected_count_after_del = '0'
 

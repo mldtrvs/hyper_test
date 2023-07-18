@@ -29,7 +29,7 @@ class Application:
         self.statuses = statusesHelper(self)
 
     def open_HGfilm(self):
-        self.driver.get("https://hgfilm.ro-zum.eu")
+        self.driver.get("https://kino01.id-network.ru/")
         self.driver.set_window_size(1124, 894)
 
     def destroy(self):

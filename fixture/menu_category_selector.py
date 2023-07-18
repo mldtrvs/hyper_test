@@ -9,8 +9,8 @@ class menuCategorySelectorHelper:
         # Open Directories --> address types menu
         directories_dropdown = self.app.driver.find_element(By.CSS_SELECTOR,
                                                             ".panel-list [role=listbox]>div:nth-child("
-                                                            "6)>.dx-list-group-body")
+                                                            "8)>.dx-list-group-body")
         if not directories_dropdown.is_displayed():
             directories = self.app.driver.find_element(
-                By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(6)>div:first-child")
+                By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(8)>div:first-child")
             directories.click()

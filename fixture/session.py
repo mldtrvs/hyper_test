@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+import time
 
 class SessionHelper:
 
@@ -11,6 +13,12 @@ class SessionHelper:
         self.app.driver.find_element(By.NAME, "username").send_keys(username)  # login
         self.app.driver.find_element(By.NAME, "password").send_keys(password)  # login
         self.app.driver.find_element(By.CSS_SELECTOR, "#mylsAuthForm [role=button]").click()
+
+    def desktop_projects(self):
+        # wait = WebDriverWait(self.app.driver, 10)
+        # projects = wait.until(EC.element_to_be_clickable(By.ID, 'buttonDesktop_10'))
+        # projects.click()
+        self.app.driver.find_element(By.CSS_SELECTOR, '#buttonDesktop_10').click()
 
     # def logout_HGfilm(self):
     #     self.app.driver.find_element(By.XPATH, "//div[@class='dx-context-menu-container-border").click()

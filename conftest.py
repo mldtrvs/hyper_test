@@ -8,4 +8,5 @@ def app(request):
     fixture = Application()
     request.addfinalizer(fixture.destroy)
     fixture.session.login_HGfilm(username="mentalfvnda@gmail.com", password="retSoHn18")
+    fixture.session.desktop_projects()
     return fixture
