@@ -12,33 +12,11 @@ class positionsHelper:
         self.app = app
 
     def go_to_positions(self):
-        directories_dropdown = menuCategorySelectorHelper.go_to_directories
-        actions = ActionChains(self.app.driver)
-        actions.move_to_element(directories_dropdown).perform()
-        scroll_limit = 5  # Maximum number of scroll attempts
-        scroll_attempt = 0
-
-        while scroll_attempt < scroll_limit:
-            try:
-                wait = WebDriverWait(self.app.driver, 10)
-                positions = wait.until(EC.element_to_be_clickable(
-                    (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
-                positions.click()
-                return wait
-            except:
-                # Scroll down the page
-                self.app.driver.execute_script("arguments[0].scrollIntoView();", positions)
-                scroll_attempt += 1
-                time.sleep(2)  # Add a small delay between scroll attempts
-
-        # Handle the case where the positions element is not found within the scroll limit
-        raise AssertionError("Positions element not found.")
-
-        # wait = WebDriverWait(self.app.driver, 20)
-        # positions = wait.until(EC.element_to_be_clickable(
-        #     (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
-        # positions.click()
-        # return wait
+        wait = WebDriverWait(self.app.driver, 20)
+        positions = wait.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
+        positions.click()
+        return wait
 
     def add_new(self, wait, position_name):
         add_btn = wait.until(
@@ -74,7 +52,7 @@ class positionsHelper:
                                                                                  "-383_tab_delete_current']")))
         delete_current.click()
         pass
-        time.sleep(1)
+        time.sleep(2)
 
     def check_if_added_delete_check_if_deleted(self, wait):
         # Verify if total records in the grid equals 1
