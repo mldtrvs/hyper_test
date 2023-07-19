@@ -18,23 +18,31 @@ class statusesHelper:
 
     def add_new(self, wait, status_name):
         # add new Status
-        aria_owns_value = self.open_popup_type_name(status_name, wait)
-        status_type = self.app.driver.find_element(
-            By.CSS_SELECTOR, "#" + aria_owns_value + "  [role=listbox]>div:nth-child(1)")
-        status_type.click()
-        # на кино! #form-16--1_popup .data-myls__sys_status_type_id .dx-selectbox кликнуть
-        # после клика найти aria-owns опотом в этом  # dx-e426bd8b-f2c1-cdf5-d69a-3d39bd676f52 и там уже искать элементы списка
-        self.save_form(wait)
-        self.search_for_new_added(status_name)
-        self.check_if_added_delete_check_if_deleted(wait)
-
-        aria_owns_value = self.open_popup_type_name(status_name, wait)
-        status_type = self.app.driver.find_element(
-            By.CSS_SELECTOR, "#" + aria_owns_value + "  [role=listbox]>div:nth-child(2)")
-        status_type.click()
-        self.save_form(wait)
-        self.search_for_new_added(status_name)
-        self.check_if_added_delete_check_if_deleted(wait)
+        # aria_owns_value = self.open_popup_type_name(status_name, wait)
+        # status_type = self.app.driver.find_element(
+        #     By.CSS_SELECTOR, "#" + aria_owns_value + "  [role=listbox]>div:nth-child(1)")
+        # status_type.click()
+        # # на кино! #form-16--1_popup .data-myls__sys_status_type_id .dx-selectbox кликнуть
+        # # после клика найти aria-owns опотом в этом  # dx-e426bd8b-f2c1-cdf5-d69a-3d39bd676f52 и там уже искать элементы списка
+        # self.save_form(wait)
+        # self.search_for_new_added(status_name)
+        # self.check_if_added_delete_check_if_deleted(wait)
+        #
+        # aria_owns_value = self.open_popup_type_name(status_name, wait)
+        # status_type = self.app.driver.find_element(
+        #     By.CSS_SELECTOR, "#" + aria_owns_value + "  [role=listbox]>div:nth-child(2)")
+        # status_type.click()
+        # self.save_form(wait)
+        # self.search_for_new_added(status_name)
+        # self.check_if_added_delete_check_if_deleted(wait)
+        for div_index in range(1, 16):
+            aria_owns_value = self.open_popup_type_name(status_name, wait)
+            status_type = self.app.driver.find_element(
+                By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child({div_index})")
+            status_type.click()
+            self.save_form(wait)
+            self.search_for_new_added(status_name)
+            self.check_if_added_delete_check_if_deleted(wait)
 
     def open_popup_type_name(self, status_name, wait):
         add_btn = wait.until(EC.element_to_be_clickable((
