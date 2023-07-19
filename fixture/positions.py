@@ -1,8 +1,10 @@
 import time
 
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from fixture.menu_category_selector import menuCategorySelectorHelper
 
 class positionsHelper:
 
@@ -10,19 +12,41 @@ class positionsHelper:
         self.app = app
 
     def go_to_positions(self):
-        wait = WebDriverWait(self.app.driver, 20)
-        position = wait.until(EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
-        position.click()
-        return wait
+        directories_dropdown = self.menuCategorySelector.go_to_directories()
+        actions = ActionChains(self.app.driver)
+        actions.move_to_element(directories_dropdown).perform()
+        scroll_limit = 5  # Maximum number of scroll attempts
+        scroll_attempt = 0
+
+        while scroll_attempt < scroll_limit:
+            try:
+                wait = WebDriverWait(self.app.driver, 10)
+                positions = wait.until(EC.element_to_be_clickable(
+                    (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
+                positions.click()
+                return wait
+            except:
+                # Scroll down the page
+                self.app.driver.execute_script("arguments[0].scrollIntoView();", positions)
+                scroll_attempt += 1
+                time.sleep(2)  # Add a small delay between scroll attempts
+
+        # Handle the case where the positions element is not found within the scroll limit
+        raise AssertionError("Positions element not found.")
+
+        # wait = WebDriverWait(self.app.driver, 20)
+        # positions = wait.until(EC.element_to_be_clickable(
+        #     (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
+        # positions.click()
+        # return wait
 
     def add_new(self, wait, position_name):
-        add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-383tab [role=toolbar] ["
-                                                                          "buttonrole=add]")))
+        add_btn = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, '#grid-383_tab [role=toolbar] [buttonrole=add]')))
         add_btn.click()
         time.sleep(2)
         self.app.driver.find_element(By.NAME, "post_name").send_keys(position_name)
-        ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-383--1_popup_save-button')))
+        ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-457--1_popup_save-button')))
         ok_btn.click()
 
     def search_for_new_added(self, position_name):
@@ -31,17 +55,12 @@ class positionsHelper:
         search_input.send_keys(position_name)
         time.sleep(1)
 
-    def check_if_added_delete_check_if_deleted(self, wait):
-        # Verify if total records in the grid equals 1
+    def check_total_records(self, expected_count):
         total_records = self.app.driver.find_element(By.ID, "grid-383_tab_totalCount")
         total_records_value = total_records.text
-        expected_count = '1'
 
         if expected_count in total_records_value:
-            print("Total records is 1. Proceeding to deletion.")
-            time.sleep(1)
-            self.delete_record(wait)
-            self.check_total_records(expected_count='0')
+            print(f"Total records is {expected_count}.")
         else:
             # Assertion failed, handle the failure or raise an exception
             raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
@@ -57,12 +76,17 @@ class positionsHelper:
         pass
         time.sleep(1)
 
-    def check_total_records(self, expected_count):
+    def check_if_added_delete_check_if_deleted(self, wait):
+        # Verify if total records in the grid equals 1
         total_records = self.app.driver.find_element(By.ID, "grid-383_tab_totalCount")
         total_records_value = total_records.text
+        expected_count = '1'
 
         if expected_count in total_records_value:
-            print(f"Total records is {expected_count}.")
+            print("Total records is 1. Proceeding to deletion.")
+            time.sleep(1)
+            self.delete_record(wait)
+            self.check_total_records(expected_count='0')
         else:
             # Assertion failed, handle the failure or raise an exception
             raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
