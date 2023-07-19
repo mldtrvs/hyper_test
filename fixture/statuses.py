@@ -89,7 +89,7 @@ class statusesHelper:
                                                                                  "-15_tab_delete_current']")))
         delete_current.click()
         pass
-        time.sleep(2)
+        time.sleep(3)
 
     def check_if_added_delete_check_if_deleted(self, wait):
         # Verify if total records in the grid equals 1
