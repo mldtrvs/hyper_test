@@ -12,7 +12,7 @@ class positionsHelper:
         self.app = app
 
     def go_to_positions(self):
-        directories_dropdown = self.menuCategorySelector.go_to_directories()
+        directories_dropdown = menuCategorySelectorHelper.go_to_directories
         actions = ActionChains(self.app.driver)
         actions.move_to_element(directories_dropdown).perform()
         scroll_limit = 5  # Maximum number of scroll attempts
