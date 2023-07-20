@@ -30,8 +30,8 @@ class Application:
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")
-        #self.driver.set_window_size(1124, 894)
-        self.driver.maximize_window()
+        self.driver.set_window_size(1124, 894)
+        #self.driver.maximize_window()
 
     def destroy(self):
         self.driver.quit()

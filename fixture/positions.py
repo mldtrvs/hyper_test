@@ -4,7 +4,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from fixture.menu_category_selector import menuCategorySelectorHelper
+
 
 class positionsHelper:
 
@@ -12,9 +12,22 @@ class positionsHelper:
         self.app = app
 
     def go_to_positions(self):
-        wait = WebDriverWait(self.app.driver, 20)
+        wait = WebDriverWait(self.app.driver, 5)
         positions = wait.until(EC.element_to_be_clickable(
             (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
+        if not positions.is_displayed():
+            # 1
+            menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, 'panel-list .dx-scrollable-scroll')
+            menu_scrollbar.click()
+            self.app.driver.execute_script("arguments[0].scroll(0,arguments[0].scrollHeight);", menu_scrollbar)
+            # menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, '.panel-list .dx-scrollable-scroll')
+            # menu_scrollbar.click()
+            # actions = ActionChains(self.app.driver)
+            # actions.move_to_element(menu_scrollbar).perform()
+            # menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, '.panel-list .dx-scrollable-scrollbar')
+            # self.app.driver.execute_script("arguments[0].scrollBy(0, 100);", menu_scrollbar)
+            time.sleep(1)
+
         positions.click()
         return wait
 

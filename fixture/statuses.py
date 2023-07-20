@@ -16,17 +16,6 @@ class statusesHelper:
         statuses.click()
         return wait
 
-    def add_new(self, wait, status_name):
-        # add new Status
-        # aria_owns_value = self.open_popup_type_name(status_name, wait)
-        # status_type = self.app.driver.find_element(
-        #     By.CSS_SELECTOR, "#" + aria_owns_value + "  [role=listbox]>div:nth-child(1)")
-        # status_type.click()
-        #
-
-
-
-
     def open_new_form(self, status_name, wait):
         add_btn = wait.until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, "#grid-15_tab [role=toolbar] [buttonrole=add]")))
