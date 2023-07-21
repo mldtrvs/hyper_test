@@ -13,20 +13,28 @@ class positionsHelper:
 
     def go_to_positions(self):
         wait = WebDriverWait(self.app.driver, 5)
+        menu_scrollbar = self.app.driver.find_element(By.XPATH, ".panel-list .dx-scrollable-scrollbar")
+        menu_scrollbar.click()
         positions = wait.until(EC.element_to_be_clickable(
             (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
         if not positions.is_displayed():
             # 1
-            menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, 'panel-list .dx-scrollable-scroll')
-            menu_scrollbar.click()
-            self.app.driver.execute_script("arguments[0].scroll(0,arguments[0].scrollHeight);", menu_scrollbar)
-            # menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, '.panel-list .dx-scrollable-scroll')
+            # menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, '.panel-list .dx-scrollable-content')
             # menu_scrollbar.click()
+            # self.app.driver.execute_script("arguments[0].scroll(0,arguments[0].scrollHeight);", menu_scrollbar)
+            # 2
+            menu_scrollbar = self.app.driver.find_element(By.XPATH, ".panel-list .dx-scrollable-scrollbar")
+            menu_scrollbar.click()
             # actions = ActionChains(self.app.driver)
             # actions.move_to_element(menu_scrollbar).perform()
-            # menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, '.panel-list .dx-scrollable-scrollbar')
+            #3
+            # menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, '.panel-list .dx-scrollable-crollcontent')
             # self.app.driver.execute_script("arguments[0].scrollBy(0, 100);", menu_scrollbar)
-            time.sleep(1)
+            # time.sleep(1)
+            # menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, '.panel-list .dx-scrollable-scrollcontent')
+            # scroll_amount = 100  # You can adjust this value based on how much you want to scroll
+            # self.app.driver.execute_script("arguments[0].scrollTop += arguments[1];", menu_scrollbar, scroll_amount)
+            # time.sleep(1)
 
         positions.click()
         return wait
