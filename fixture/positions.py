@@ -19,7 +19,6 @@ class positionsHelper:
         except TimeoutException:
             self.scroll_menu(wait)
             positions = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
-
         positions.click()
         return positions
 
