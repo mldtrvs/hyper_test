@@ -1,5 +1,6 @@
 import time
 
+from selenium.common import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -12,26 +13,25 @@ class positionsHelper:
         self.app = app
 
     def go_to_positions(self):
-        wait = WebDriverWait(self.app.driver, 5)
-        positions = wait.until(EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
-        if not positions.is_displayed():
-            # 1
-            menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, 'panel-list .dx-scrollable-scroll')
-            menu_scrollbar.click()
-            self.app.driver.execute_script("arguments[0].scroll(0,arguments[0].scrollHeight);", menu_scrollbar)
-            # menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, '.panel-list .dx-scrollable-scroll')
-            # menu_scrollbar.click()
-            # actions = ActionChains(self.app.driver)
-            # actions.move_to_element(menu_scrollbar).perform()
-            # menu_scrollbar = self.app.driver.find_element(By.CSS_SELECTOR, '.panel-list .dx-scrollable-scrollbar')
-            # self.app.driver.execute_script("arguments[0].scrollBy(0, 100);", menu_scrollbar)
-            time.sleep(1)
+        wait = WebDriverWait(self.app.driver, 2)
+        try:
+            positions = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
+        except TimeoutException:
+            self.scroll_menu(wait)
+            positions = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-383_tab']")))
 
         positions.click()
-        return wait
+        return positions
 
-    def add_new(self, wait, position_name):
+    def scroll_menu(self, wait):
+        menu_scrollbar = wait.until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, '.panel-list .dx-scrollable-scroll')))
+        action_chains = ActionChains(self.app.driver)
+        action_chains.move_to_element(menu_scrollbar).perform()
+        action_chains.drag_and_drop_by_offset(menu_scrollbar, 0, 164).perform()
+
+    def add_new(self, position_name):
+        wait = WebDriverWait(self.app.driver, 10)
         add_btn = wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, '#grid-383_tab [role=toolbar] [buttonrole=add]')))
         add_btn.click()
@@ -40,11 +40,12 @@ class positionsHelper:
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-457--1_popup_save-button')))
         ok_btn.click()
 
-    def search_for_new_added(self, position_name):
+    def search_for_new_added(self, status_name):
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-383_tab [role=textbox]")
         search_input.click()
-        search_input.send_keys(position_name)
-        time.sleep(1)
+        search_input.clear()
+        search_input.send_keys(status_name)
+        time.sleep(3)
 
     def check_total_records(self, expected_count):
         total_records = self.app.driver.find_element(By.ID, "grid-383_tab_totalCount")
@@ -56,16 +57,17 @@ class positionsHelper:
             # Assertion failed, handle the failure or raise an exception
             raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
 
-    def delete_record(self, wait):
+    def delete_record(self):
         # delete record
         self.app.driver.find_element(By.CSS_SELECTOR,
                                      "#grid-383_tab [role=toolbar] [buttonrole=delete]").click()
         time.sleep(1)
+        wait = WebDriverWait(self.app.driver, 10)
         delete_current = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-button-type='grid"
                                                                                  "-383_tab_delete_current']")))
         delete_current.click()
         pass
-        time.sleep(2)
+        time.sleep(3)
 
     def check_if_added_delete_check_if_deleted(self, wait):
         # Verify if total records in the grid equals 1
@@ -76,7 +78,8 @@ class positionsHelper:
         if expected_count in total_records_value:
             print("Total records is 1. Proceeding to deletion.")
             time.sleep(1)
-            self.delete_record(wait)
+            self.delete_record()
+            time.sleep(3)
             self.check_total_records(expected_count='0')
         else:
             # Assertion failed, handle the failure or raise an exception
