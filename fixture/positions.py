@@ -68,7 +68,7 @@ class positionsHelper:
         pass
         time.sleep(3)
 
-    def check_if_added_delete_check_if_deleted(self, wait):
+    def check_if_added_delete_check_if_deleted(self):
         # Verify if total records in the grid equals 1
         total_records = self.app.driver.find_element(By.ID, "grid-383_tab_totalCount")
         total_records_value = total_records.text
