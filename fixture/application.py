@@ -16,7 +16,7 @@ from fixture.positions import positionsHelper
 class Application:
     def __init__(self):
         self.driver = webdriver.Chrome()
-        self.driver.implicitly_wait(20)
+        self.driver.implicitly_wait(10)
         self.session = SessionHelper(self)
         self.filmType = FilmTypeHelper(self)
         self.genres = GenresHelper(self)
