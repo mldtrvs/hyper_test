@@ -34,6 +34,9 @@ class tagsHelper:
             By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child({div_index})")
         tag_type.click()
 
+        tag_type_value_in = tag_type.text
+        print(tag_type_value_in)
+
     def save_form(self, wait):
         time.sleep(4)
         ok_btn = wait.until(
@@ -47,15 +50,14 @@ class tagsHelper:
         search_input.send_keys(tag_name)
         time.sleep(3)
 
-        idn = self.app.driver.find_element(By.ID, "grid-63_tab_totalId")
-        text = idn.text
-        extracted_number = text.split(":")[1].strip()
-        print(extracted_number)
-        time.sleep(3)
+        record_id = self.app.driver.find_element(By.ID, "grid-63_tab_totalId")
+        text = record_id.text
+        id_number = text.split(":")[1].strip()
+        print(id_number)
         wait = WebDriverWait(self.app.driver, 10)
-        typevalue = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-63_tab [data-id='{extracted_number}']>td:nth-child(3)")))
-        text = typevalue.text
+        tag_type_value = wait.until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-63_tab [data-id='{id_number}']")))
+        text = tag_type_value.text
         print(text)
 
     def check_total_records(self, expected_count):

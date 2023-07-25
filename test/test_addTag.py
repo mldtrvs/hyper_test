@@ -7,5 +7,4 @@ def test_addtag(app):
         app.tags.choose_tag_type(aria_owns_value, div_index)
         app.tags.save_form(wait)
         app.tags.search_for_new_added("zaa1231kjklm")
-        time.sleep(5)
         app.tags.check_if_added_delete_check_if_deleted(wait)
