@@ -30,7 +30,7 @@ class Application:
         self.statuses = statusesHelper(self)
         self.positions = positionsHelper(self)
         self.releaseType = releaseTypeHelper(self)
-        self.tags = tagsHelper
+        self.tags = tagsHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")
