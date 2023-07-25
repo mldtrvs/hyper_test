@@ -10,6 +10,7 @@ from fixture.release_type import releaseTypeHelper
 from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
 from fixture.statuses import statusesHelper
+from fixture.tags import tagsHelper
 from fixture.videoFormat import VideoFormatHelper
 from fixture.positions import positionsHelper
 
@@ -29,6 +30,7 @@ class Application:
         self.statuses = statusesHelper(self)
         self.positions = positionsHelper(self)
         self.releaseType = releaseTypeHelper(self)
+        self.tags = tagsHelper
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")
