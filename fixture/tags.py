@@ -32,8 +32,8 @@ class tagsHelper:
     def choose_tag_type(self, aria_owns_value, div_index):
         tag_type = self.app.driver.find_element(
             By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child({div_index})")
-        tag_type_text = tag_type.text
-        print(tag_type_text)
+        tag_type_text_in = tag_type.text
+        print(tag_type_text_in)
         tag_type.click()
 
     def save_form(self, wait):
@@ -49,9 +49,9 @@ class tagsHelper:
         search_input.send_keys(tag_name)
         time.sleep(3)
 
-        self.get_tag_type_value()
+        self.get_tag_type_value(tag_name)
 
-    def get_tag_type_value(self):
+    def get_tag_type_value(self, tag_type_text_in):
         record_id = self.app.driver.find_element(By.ID, "grid-63_tab_totalId")
         text = record_id.text
         record_id_number = text.split(":")[1].strip()
@@ -61,8 +61,13 @@ class tagsHelper:
         tag_type_value = wait.until(
             EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, f"#grid-63_tab [data-id='{record_id_number}']")))
-        text = tag_type_value.text
-        print(text)
+        tag_type_text_out = tag_type_value.text
+        print(tag_type_text_out)
+
+        if tag_type_text_in in tag_type_text_out:
+            print("Tag type values match.")
+        else:
+            print(f"Tag type values differ. Expected: {tag_type_text_in}, Actual: {tag_type_text_out}")
 
 
     def check_total_records(self, expected_count):
