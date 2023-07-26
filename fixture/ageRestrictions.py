@@ -93,18 +93,15 @@ class ageRestrictionHelper:
                                                                                  "-333_tab_delete_current']")))
         delete_current.click()
         pass
-        time.sleep(3)
+        #time.sleep(3)
 
     def check_if_deleted(self):
         total_records = self.app.driver.find_element(By.ID, "grid-333_tab_totalCount")
         total_records_value = total_records.text
         expected_count = '0'
-        try:
-            if expected_count in total_records_value:
-                print("Total records is 0.")
-            else:
-                # Assertion failed, handle the failure or raise an exception
-                raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
-        except AssertionError as e:
-            print(f"AssertionError: {e}")
-            return
+
+        if expected_count in total_records_value:
+            print("Total records is 0.")
+        else:
+            # Assertion failed, handle the failure or raise an exception
+            raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
