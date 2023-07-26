@@ -39,8 +39,8 @@ class legalFormHelper:
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-344--1_popup_save-button')))
         ok_btn.click()
 
-    def add_new_SP_attribute_checkbox(self, legal_form_name):
-        wait = WebDriverWait(self.app.driver, 10)
+    def add_new_SP_attribute_checkbox(self, wait, legal_form_name):
+
         add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-342_tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
