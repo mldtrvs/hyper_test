@@ -36,8 +36,8 @@ class tagsHelper:
         print(tag_type_text_in)
         tag_type.click()
         return tag_type_text_in
+
     def save_form(self, wait):
-        time.sleep(4)
         ok_btn = wait.until(
             EC.visibility_of_element_located((By.ID, "form-62--1_popup_save-button")))
         ok_btn.click()
@@ -47,8 +47,6 @@ class tagsHelper:
         search_input.click()
         search_input.clear()
         search_input.send_keys(tag_name)
-
-        #self.get_tag_type_value(tag_name)
 
     def get_tag_type_value(self):
         record_id = self.app.driver.find_element(By.ID, "grid-63_tab_totalId")
@@ -62,8 +60,6 @@ class tagsHelper:
         tag_type_text_out = tag_type_value.text
         print(tag_type_text_out)
         return tag_type_text_out
-
-        #self.check_selected_tag_type_match(tag_type_text_in, tag_type_text_out)
 
     def check_selected_tag_type_match(self, tag_type_text_in, tag_type_text_out):
         if tag_type_text_in in tag_type_text_out:
