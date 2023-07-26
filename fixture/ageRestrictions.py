@@ -31,7 +31,7 @@ class ageRestrictionHelper:
         search_input.click()
         search_input.clear()
         search_input.send_keys(age_restriction)
-        time.sleep(3)
+        #time.sleep(3)
 
     # def check_total_records(self, expected_count):
     #     total_records = self.app.driver.find_element(By.ID, "grid-333_tab_totalCount")
@@ -93,7 +93,7 @@ class ageRestrictionHelper:
                                                                                  "-333_tab_delete_current']")))
         delete_current.click()
         pass
-        #time.sleep(3)
+        time.sleep(3)
 
     def check_if_deleted(self):
         total_records = self.app.driver.find_element(By.ID, "grid-333_tab_totalCount")
