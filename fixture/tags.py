@@ -22,8 +22,8 @@ class tagsHelper:
         add_btn.click()
         time.sleep(2)
         self.app.driver.find_element(By.NAME, "tag").send_keys(tag_name)
-        type_selector = self.app.driver.find_element(By.CSS_SELECTOR, "#form-62--1_popup .data-myls__sys_tag_type_id "
-                                                                      ".dx-selectbox")
+        type_selector = self.app.driver.find_element(By.CSS_SELECTOR, "#form-62--1_popup "
+                                                                      ".data-myls__sys_tag_type_id .dx-selectbox")
         type_selector.click()
         aria_owns_value = type_selector.get_attribute("aria-owns")
         print(aria_owns_value)
@@ -34,15 +34,12 @@ class tagsHelper:
             By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child({div_index})")
         tag_type.click()
 
-        tag_type_value_in = tag_type.text
-        print(tag_type_value_in)
-
     def save_form(self, wait):
         time.sleep(4)
         ok_btn = wait.until(
             EC.visibility_of_element_located((By.ID, "form-62--1_popup_save-button")))
         ok_btn.click()
-    
+
     def search_for_new_added(self, tag_name):
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-63_tab [role=textbox]")
         search_input.click()
@@ -52,11 +49,13 @@ class tagsHelper:
 
         record_id = self.app.driver.find_element(By.ID, "grid-63_tab_totalId")
         text = record_id.text
-        id_number = text.split(":")[1].strip()
-        print(id_number)
+        record_id_number = text.split(":")[1].strip()
+        print(record_id_number)
+
         wait = WebDriverWait(self.app.driver, 10)
         tag_type_value = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-63_tab [data-id='{id_number}']")))
+            EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, f"#grid-63_tab [data-id='{record_id_number}']")))
         text = tag_type_value.text
         print(text)
 
