@@ -63,7 +63,7 @@ class tagsHelper:
 
     def check_selected_tag_type_match(self, tag_type_text_in, tag_type_text_out):
         if tag_type_text_in in tag_type_text_out:
-            print("Tag type matches ")
+            print("Tag type is visible ")
         else:
             raise AssertionError(f"Tag type values differ. Expected: {tag_type_text_in}, Actual: {tag_type_text_out}")
 
