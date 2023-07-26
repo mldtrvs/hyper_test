@@ -35,7 +35,7 @@ class tagsHelper:
         tag_type_text_in = tag_type.text
         print(tag_type_text_in)
         tag_type.click()
-
+        return tag_type_text_in
     def save_form(self, wait):
         time.sleep(4)
         ok_btn = wait.until(
@@ -47,11 +47,10 @@ class tagsHelper:
         search_input.click()
         search_input.clear()
         search_input.send_keys(tag_name)
-        time.sleep(3)
 
-        self.get_tag_type_value(tag_name)
+        #self.get_tag_type_value(tag_name)
 
-    def get_tag_type_value(self, tag_type_text_in):
+    def get_tag_type_value(self):
         record_id = self.app.driver.find_element(By.ID, "grid-63_tab_totalId")
         text = record_id.text
         record_id_number = text.split(":")[1].strip()
@@ -59,15 +58,18 @@ class tagsHelper:
 
         wait = WebDriverWait(self.app.driver, 10)
         tag_type_value = wait.until(
-            EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, f"#grid-63_tab [data-id='{record_id_number}']")))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-63_tab [data-id='{record_id_number}']")))
         tag_type_text_out = tag_type_value.text
         print(tag_type_text_out)
+        return tag_type_text_out
 
+        #self.check_selected_tag_type_match(tag_type_text_in, tag_type_text_out)
+
+    def check_selected_tag_type_match(self, tag_type_text_in, tag_type_text_out):
         if tag_type_text_in in tag_type_text_out:
-            print("Tag type values match.")
+            print("Tag type matches ")
         else:
-            print(f"Tag type values differ. Expected: {tag_type_text_in}, Actual: {tag_type_text_out}")
+            raise AssertionError(f"Tag type values differ. Expected: {tag_type_text_in}, Actual: {tag_type_text_out}")
 
     def check_total_records(self, expected_count):
         total_records = self.app.driver.find_element(By.ID, "grid-63_tab_totalCount")
