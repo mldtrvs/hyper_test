@@ -32,6 +32,8 @@ class tagsHelper:
     def choose_tag_type(self, aria_owns_value, div_index):
         tag_type = self.app.driver.find_element(
             By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child({div_index})")
+        tag_type_text = tag_type.text
+        print(tag_type_text)
         tag_type.click()
 
     def save_form(self, wait):
@@ -47,6 +49,9 @@ class tagsHelper:
         search_input.send_keys(tag_name)
         time.sleep(3)
 
+        self.get_tag_type_value()
+
+    def get_tag_type_value(self):
         record_id = self.app.driver.find_element(By.ID, "grid-63_tab_totalId")
         text = record_id.text
         record_id_number = text.split(":")[1].strip()
@@ -58,6 +63,7 @@ class tagsHelper:
                 (By.CSS_SELECTOR, f"#grid-63_tab [data-id='{record_id_number}']")))
         text = tag_type_value.text
         print(text)
+
 
     def check_total_records(self, expected_count):
         total_records = self.app.driver.find_element(By.ID, "grid-63_tab_totalCount")
@@ -95,5 +101,3 @@ class tagsHelper:
         else:
             # Assertion failed, handle the failure or raise an exception
             raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
-
-
