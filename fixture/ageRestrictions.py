@@ -101,7 +101,7 @@ class ageRestrictionHelper:
         expected_count = '0'
         try:
             if expected_count in total_records_value:
-                print("Total records is 0. Proceeding to deletion.")
+                print("Total records is 0.")
             else:
                 # Assertion failed, handle the failure or raise an exception
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
