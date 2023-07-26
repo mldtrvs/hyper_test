@@ -69,7 +69,6 @@ class tagsHelper:
         else:
             print(f"Tag type values differ. Expected: {tag_type_text_in}, Actual: {tag_type_text_out}")
 
-
     def check_total_records(self, expected_count):
         total_records = self.app.driver.find_element(By.ID, "grid-63_tab_totalCount")
         total_records_value = total_records.text
