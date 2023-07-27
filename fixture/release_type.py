@@ -13,14 +13,13 @@ class releaseTypeHelper:
         self.app = app
 
     def go_to_release_type(self):
-        wait2 = WebDriverWait(self.app.driver, 2)
+        wait = WebDriverWait(self.app.driver, 2)
         try:
-            positions = wait2.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-407_tab']")))
+            positions = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-407_tab']")))
         except TimeoutException:
-            self.scroll_menu(wait2)
-            positions = wait2.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-407_tab']")))
+            self.scroll_menu(wait)
+            positions = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-407_tab']")))
         positions.click()
-        return positions
 
     def scroll_menu(self, wait):
         menu_scrollbar = wait.until(

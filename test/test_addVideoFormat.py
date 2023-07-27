@@ -7,4 +7,6 @@ def test_addVideoFormat(app):
     app.videoFormat.add_new(wait, "rtree332weq")
     time.sleep(2)
     app.videoFormat.search_for_new_added("rtree332weq")
-    app.videoFormat.check_if_added_delete_check_if_deleted(wait)
+    app.videoFormat.check_if_added()
+    app.videoFormat.delete_record(wait)
+    app.videoFormat.check_if_deleted()
