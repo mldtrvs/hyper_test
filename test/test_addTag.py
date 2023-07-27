@@ -12,4 +12,6 @@ def test_addtag(app):
         time.sleep(2)
         tag_type_text_out = app.tags.get_tag_type_value()
         app.tags.check_selected_tag_type_match(tag_type_text_in, tag_type_text_out)
-        app.tags.check_if_added_delete_check_if_deleted(wait)
+        app.tags.check_if_added()
+        app.tags.delete_record(wait)
+        app.tags.check_if_deleted()
