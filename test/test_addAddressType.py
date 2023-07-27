@@ -7,4 +7,6 @@ def test_addAddressType(app):
     app.addressType.add_new(wait, "kamxc123masd")
     time.sleep(2)
     app.addressType.search_for_new_added("kamxc123masd")
-    app.addressType.check_if_added_delete_check_if_deleted(wait)
+    app.addressType.check_if_added()
+    app.addressType.delete_record(wait)
+    app.addressType.check_if_deleted()

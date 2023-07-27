@@ -22,8 +22,7 @@ class ageRestrictionHelper:
         add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-333_tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
-        time.sleep(2)
-        self.app.driver.find_element(By.NAME, "age_limit").send_keys(age_restriction)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-334--1_popup [role=textbox]").send_keys(age_restriction)
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-334--1_popup_save-button')))
         ok_btn.click()
 
