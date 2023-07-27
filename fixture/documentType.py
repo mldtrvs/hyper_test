@@ -22,7 +22,6 @@ class DocumentTypeHelper:
         add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-294_tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
-        time.sleep(2)
         self.app.driver.find_element(By.CSS_SELECTOR, "#form-295--1_popup [role=textbox]").send_keys(document_type_name)
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-295--1_popup_save-button')))
         ok_btn.click()
