@@ -16,10 +16,12 @@ class legalFormHelper:
     def go_to_legal_forms(self):
         wait = WebDriverWait(self.app.driver, 2)
         try:
-            legal_forms = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-342_tab']")))
+            legal_forms = wait.until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-342_tab']")))
         except TimeoutException:
             self.scroll_menu(wait)
-            legal_forms = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-342_tab']")))
+            legal_forms = wait.until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-342_tab']")))
         legal_forms.click()
 
     def scroll_menu(self, wait):
@@ -56,6 +58,21 @@ class legalFormHelper:
         search_input.clear()
         search_input.send_keys(legal_form_name)
         time.sleep(3)
+
+    def get_checkbox_value(self):
+        record_id = self.app.driver.find_element(By.ID, "grid-342_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        print(record_id_number)
+
+        wait = WebDriverWait(self.app.driver, 10)
+        elements = wait.until(
+            EC.visibility_of_all_elements_located((
+                By.CSS_SELECTOR, f"#grid-342_tab [data-id='{record_id_number}'] [role=checkbox]")))
+        for element in elements:
+            checkbox_value = element.get_attribute("aria-checked")
+            print(checkbox_value)
+            return checkbox_value
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-342_tab_totalCount")
