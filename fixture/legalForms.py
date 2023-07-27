@@ -1,5 +1,6 @@
 import time
 
+import pytest
 from selenium.common import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -15,12 +16,11 @@ class legalFormHelper:
     def go_to_legal_forms(self):
         wait = WebDriverWait(self.app.driver, 2)
         try:
-            positions = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-342_tab']")))
+            legal_forms = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-342_tab']")))
         except TimeoutException:
             self.scroll_menu(wait)
-            positions = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-342_tab']")))
-        positions.click()
-        return positions
+            legal_forms = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-342_tab']")))
+        legal_forms.click()
 
     def scroll_menu(self, wait):
         menu_scrollbar = wait.until(
@@ -34,21 +34,21 @@ class legalFormHelper:
         add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-342_tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
-        time.sleep(2)
-        self.app.driver.find_element(By.NAME, "form_name").send_keys(legal_form_name)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-344--1_popup [role=textbox]").send_keys(legal_form_name)
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-344--1_popup_save-button')))
         ok_btn.click()
+        return wait
 
-    def add_new_SP_attribute_checkbox(self, wait, legal_form_name):
-
+    def add_new_SP_attribute_checkbox(self, legal_form_name):
+        wait = WebDriverWait(self.app.driver, 10)
         add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-342_tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
-        time.sleep(2)
         self.app.driver.find_element(By.CSS_SELECTOR, '#form-344--1_popup [role=checkbox]').click()
-        self.app.driver.find_element(By.NAME, "form_name").send_keys(legal_form_name)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-344--1_popup [role=textbox]").send_keys(legal_form_name)
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-344--1_popup_save-button')))
         ok_btn.click()
+        return wait
 
     def search_for_new_added(self, legal_form_name):
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-342_tab [role=textbox]")
@@ -57,40 +57,37 @@ class legalFormHelper:
         search_input.send_keys(legal_form_name)
         time.sleep(3)
 
-    def check_total_records(self, expected_count):
+    def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-342_tab_totalCount")
         total_records_value = total_records.text
+        expected_count = '1'
+        try:
+            if expected_count in total_records_value:
+                print("Total records is 1. Proceeding to deletion.")
+            else:
+                # Assertion failed, handle the failure or raise an exception
+                raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
+        except AssertionError as e:
+            pytest.fail(f"Test failed: {e}")
 
-        if expected_count in total_records_value:
-            print(f"Total records is {expected_count}.")
-        else:
-            # Assertion failed, handle the failure or raise an exception
-            raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
+    def delete_record(self, wait):
 
-    def delete_record(self):
-        # delete record
         self.app.driver.find_element(By.CSS_SELECTOR,
                                      "#grid-342_tab [role=toolbar] [buttonrole=delete]").click()
         time.sleep(1)
-        wait = WebDriverWait(self.app.driver, 10)
         delete_current = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-button-type='grid"
                                                                                  "-342_tab_delete_current']")))
         delete_current.click()
         pass
         time.sleep(3)
 
-    def check_if_added_delete_check_if_deleted(self):
-        # Verify if total records in the grid equals 1
+    def check_if_deleted(self):
         total_records = self.app.driver.find_element(By.ID, "grid-342_tab_totalCount")
         total_records_value = total_records.text
-        expected_count = '1'
+        expected_count = '0'
 
         if expected_count in total_records_value:
-            print("Total records is 1. Proceeding to deletion.")
-            time.sleep(1)
-            self.delete_record()
-            time.sleep(3)
-            self.check_total_records(expected_count='0')
+            print("Total records is 0.")
         else:
             # Assertion failed, handle the failure or raise an exception
             raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")

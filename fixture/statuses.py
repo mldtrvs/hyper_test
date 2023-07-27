@@ -36,7 +36,10 @@ class statusesHelper:
     def choose_status_type(self, aria_owns_value, div_index):
         status_type = self.app.driver.find_element(
             By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child({div_index})")
+        status_type_text_in = status_type.text
+        print(status_type_text_in)
         status_type.click()
+        return status_type_text_in
 
     def save_form(self, wait):
         time.sleep(4)
@@ -49,7 +52,26 @@ class statusesHelper:
         search_input.click()
         search_input.clear()
         search_input.send_keys(status_name)
-        time.sleep(3)
+
+    def get_status_type_value(self):
+        record_id = self.app.driver.find_element(By.ID, "grid-15_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        print(record_id_number)
+
+        wait = WebDriverWait(self.app.driver, 10)
+        status_type_value = wait.until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-15_tab [data-id='{record_id_number}']")))
+        status_type_text_out = status_type_value.text
+        print(status_type_text_out)
+        return status_type_text_out
+
+    def check_selected_status_type_match(self, status_type_text_in, status_type_text_out):
+        if status_type_text_in in status_type_text_out:
+            print("Status type match")
+        else:
+            raise AssertionError(
+                f"Status type values differ. Expected: {status_type_text_in}, Actual: {status_type_text_out}")
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-15_tab_totalCount")
