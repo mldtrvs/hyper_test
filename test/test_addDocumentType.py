@@ -7,4 +7,6 @@ def test_addDocumentType(app):
     app.documentType.add_new(wait, "yljw72lkdjek")
     time.sleep(2)
     app.documentType.search_for_new_added("yljw72lkdjek")
-    app.documentType.check_if_added_delete_check_if_deleted(wait)
+    app.documentType.check_if_added()
+    app.documentType.delete_record(wait)
+    app.documentType.check_if_deleted()

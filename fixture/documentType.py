@@ -1,5 +1,6 @@
 import time
 
+import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -22,7 +23,7 @@ class DocumentTypeHelper:
                                                                           "buttonrole=add]")))
         add_btn.click()
         time.sleep(2)
-        self.app.driver.find_element(By.NAME, "type_name").send_keys(document_type_name)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-295--1_popup [role=textbox]").send_keys(document_type_name)
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-295--1_popup_save-button')))
         ok_btn.click()
 
@@ -43,8 +44,21 @@ class DocumentTypeHelper:
             # Assertion failed, handle the failure or raise an exception
             raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
 
+    def check_if_added(self):
+        total_records = self.app.driver.find_element(By.ID, "grid-294_tab_totalCount")
+        total_records_value = total_records.text
+        expected_count = '1'
+        try:
+            if expected_count in total_records_value:
+                print("Total records is 1. Proceeding to deletion.")
+            else:
+                # Assertion failed, handle the failure or raise an exception
+                raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
+        except AssertionError as e:
+            pytest.fail(f"Test failed: {e}")
+
     def delete_record(self, wait):
-        # delete record
+
         self.app.driver.find_element(By.CSS_SELECTOR,
                                      "#grid-294_tab [role=toolbar] [buttonrole=delete]").click()
         time.sleep(1)
@@ -54,18 +68,13 @@ class DocumentTypeHelper:
         pass
         time.sleep(3)
 
-    def check_if_added_delete_check_if_deleted(self, wait):
-        # Verify if total records in the grid equals 1
+    def check_if_deleted(self):
         total_records = self.app.driver.find_element(By.ID, "grid-294_tab_totalCount")
         total_records_value = total_records.text
-        expected_count = '1'
+        expected_count = '0'
 
         if expected_count in total_records_value:
-            print("Total records is 1. Proceeding to deletion.")
-            time.sleep(1)
-            self.delete_record(wait)
-            time.sleep(3)
-            self.check_total_records(expected_count='0')
+            print("Total records is 0.")
         else:
             # Assertion failed, handle the failure or raise an exception
             raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
