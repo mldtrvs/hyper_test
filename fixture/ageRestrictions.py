@@ -1,5 +1,6 @@
 import time
 
+import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -31,7 +32,7 @@ class ageRestrictionHelper:
         search_input.click()
         search_input.clear()
         search_input.send_keys(age_restriction)
-        #time.sleep(3)
+        time.sleep(3)
 
     # def check_total_records(self, expected_count):
     #     total_records = self.app.driver.find_element(By.ID, "grid-333_tab_totalCount")
@@ -81,8 +82,7 @@ class ageRestrictionHelper:
                 # Assertion failed, handle the failure or raise an exception
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
         except AssertionError as e:
-            print(f"AssertionError: {e}")
-            return
+            pytest.fail(f"Test failed: {e}")
 
     def delete_record(self, wait):
 
