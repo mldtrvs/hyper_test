@@ -6,6 +6,7 @@ from fixture.documentType import DocumentTypeHelper
 from fixture.filmType import FilmTypeHelper
 from fixture.legalForms import legalFormHelper
 from fixture.menu_category_selector import menuCategorySelectorHelper
+from fixture.personalities_type import personalitiesTypeHelper
 from fixture.release_type import releaseTypeHelper
 from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
@@ -13,6 +14,7 @@ from fixture.statuses import statusesHelper
 from fixture.tags import tagsHelper
 from fixture.videoFormat import VideoFormatHelper
 from fixture.positions import positionsHelper
+
 
 class Application:
     def __init__(self):
@@ -31,11 +33,12 @@ class Application:
         self.positions = positionsHelper(self)
         self.releaseType = releaseTypeHelper(self)
         self.tags = tagsHelper(self)
+        self.personalitiesType = personalitiesTypeHelper
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")
         self.driver.set_window_size(1124, 894)
-        #self.driver.maximize_window()
+        # self.driver.maximize_window()
 
     def destroy(self):
         self.driver.quit()
