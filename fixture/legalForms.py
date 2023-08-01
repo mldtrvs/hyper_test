@@ -59,20 +59,23 @@ class legalFormHelper:
         search_input.send_keys(legal_form_name)
         time.sleep(3)
 
-    def get_checkbox_value(self):
+    def if_checkbox_true(self):
+        record_id_number = self.get_record_id()
+        wait = WebDriverWait(self.app.driver, 10)
+        element = wait.until(
+            EC.visibility_of_element_located((
+                By.CSS_SELECTOR,
+                f"#grid-342_tab [data-id='{record_id_number}'] td:not(.dx-command-select) .dx-checkbox")))
+        checkbox_value = element.get_attribute("aria-checked")
+        print("checkbox:", checkbox_value)
+        if checkbox_value == "false":
+            pytest.fail("Checkbox value is False.")
+
+    def get_record_id(self):
         record_id = self.app.driver.find_element(By.ID, "grid-342_tab_totalId")
         text = record_id.text
         record_id_number = text.split(":")[1].strip()
-        print(record_id_number)
-
-        wait = WebDriverWait(self.app.driver, 10)
-        elements = wait.until(
-            EC.visibility_of_all_elements_located((
-                By.CSS_SELECTOR, f"#grid-342_tab [data-id='{record_id_number}'] [role=checkbox]")))
-        for element in elements:
-            checkbox_value = element.get_attribute("aria-checked")
-            print(checkbox_value)
-            return checkbox_value
+        return record_id_number
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-342_tab_totalCount")
