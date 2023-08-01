@@ -30,12 +30,15 @@ class personalitiesHelper:
         action_chains.move_to_element(menu_scrollbar).perform()
         action_chains.drag_and_drop_by_offset(menu_scrollbar, 0, 164).perform()
 
-    def add_new(self, wait, personality):
+    def add_new(self, wait, personality_ru, personality_en):
         add_btn = wait.until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, "#grid-2_tab [role=toolbar] [buttonrole=add]")))
         add_btn.click()
         self.app.driver.find_element(By.CSS_SELECTOR,
-                                     "#form-3--1_popup [name='star_name_ru']").send_keys(personality)
+                                     "#form-3--1_popup [name='star_name_ru']").send_keys(personality_ru)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-3--1_popup .dx-tabs-wrapper>div:nth-child(2)").click()
+        self.app.driver.find_element(By.CSS_SELECTOR,
+                                     "#form-3--1_popup [name='star_name_en']").send_keys(personality_en)
         ok_btn = wait.until(
             EC.element_to_be_clickable((By.ID, "form-3--1_popup_save-button")))
         ok_btn.click()
@@ -69,7 +72,7 @@ class personalitiesHelper:
 
     def delete_record(self, wait):
         delete_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
-                                                            "#grid-2_tab [role=toolbar] [buttonrole=delete]")))
+                                                            "#grid-2_tab [role=toolbar] [role=button][buttonrole=delete]")))
         delete_btn.click()
         # self.app.driver.find_element(By.CSS_SELECTOR,
         #                              "#grid-9_tab [role=toolbar] [buttonrole=delete]").click()
