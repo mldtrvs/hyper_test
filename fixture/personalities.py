@@ -31,7 +31,6 @@ class personalitiesHelper:
         action_chains.drag_and_drop_by_offset(menu_scrollbar, 0, 164).perform()
 
     def add_new(self, wait, personality):
-        # add new Genre
         add_btn = wait.until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, "#grid-2_tab [role=toolbar] [buttonrole=add]")))
         add_btn.click()
