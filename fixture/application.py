@@ -6,6 +6,7 @@ from fixture.documentType import DocumentTypeHelper
 from fixture.filmType import FilmTypeHelper
 from fixture.legalForms import legalFormHelper
 from fixture.menu_category_selector import menuCategorySelectorHelper
+from fixture.personalities import personalitiesHelper
 from fixture.personalities_type import personalitiesTypeHelper
 from fixture.release_type import releaseTypeHelper
 from fixture.session import SessionHelper
@@ -34,6 +35,7 @@ class Application:
         self.releaseType = releaseTypeHelper(self)
         self.tags = tagsHelper(self)
         self.personalitiesType = personalitiesTypeHelper(self)
+        self.personalities = personalitiesHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")

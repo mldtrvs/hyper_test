@@ -12,7 +12,7 @@ class statusesHelper:
         self.app = app
 
     def go_to_statuses(self):
-        wait = WebDriverWait(self.app.driver, 10)
+        wait = WebDriverWait(self.app.driver, 20)
         statuses = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-15_tab']")))
         statuses.click()
         return wait
@@ -30,14 +30,19 @@ class statusesHelper:
                                                                       ".data-myls__sys_status_type_id .dx-selectbox")
         type_selector.click()
         aria_owns_value = type_selector.get_attribute("aria-owns")
-        print(aria_owns_value)
         return aria_owns_value
+
+    def set_range(self, aria_owns_value):
+        status_type_list = self.app.driver.find_elements(
+            By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox] [role=option]")
+        print("total_types:", len(status_type_list))
+        return status_type_list
 
     def choose_status_type(self, aria_owns_value, div_index):
         status_type = self.app.driver.find_element(
             By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child({div_index})")
         status_type_text_in = status_type.text
-        print(status_type_text_in)
+        print("input:", status_type_text_in)
         status_type.click()
         return status_type_text_in
 
@@ -57,13 +62,13 @@ class statusesHelper:
         record_id = self.app.driver.find_element(By.ID, "grid-15_tab_totalId")
         text = record_id.text
         record_id_number = text.split(":")[1].strip()
-        print(record_id_number)
+        print("id:", record_id_number)
 
         wait = WebDriverWait(self.app.driver, 10)
         status_type_value = wait.until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-15_tab [data-id='{record_id_number}']")))
         status_type_text_out = status_type_value.text
-        print(status_type_text_out)
+        print("output:", status_type_text_out)
         return status_type_text_out
 
     def check_selected_status_type_match(self, status_type_text_in, status_type_text_out):
@@ -87,9 +92,9 @@ class statusesHelper:
             pytest.fail(f"Test failed: {e}")
 
     def delete_record(self, wait):
-
-        self.app.driver.find_element(By.CSS_SELECTOR,
-                                     "#grid-15_tab [role=toolbar] [buttonrole=delete]").click()
+        del_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
+                                                         "#grid-15_tab [role=toolbar] [buttonrole=delete]")))
+        del_btn.click()
         time.sleep(1)
         delete_current = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-button-type='grid"
                                                                                  "-15_tab_delete_current']")))
