@@ -38,11 +38,11 @@ class positionsHelper:
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-457--1_popup_save-button')))
         ok_btn.click()
 
-    def search_for_new_added(self, status_name):
+    def search_for_new_added(self, position_name):
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-383_tab [role=textbox]")
         search_input.click()
         search_input.clear()
-        search_input.send_keys(status_name)
+        search_input.send_keys(position_name)
         time.sleep(3)
 
     def check_if_added(self):

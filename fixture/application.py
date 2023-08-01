@@ -33,7 +33,7 @@ class Application:
         self.positions = positionsHelper(self)
         self.releaseType = releaseTypeHelper(self)
         self.tags = tagsHelper(self)
-        self.personalitiesType = personalitiesTypeHelper
+        self.personalitiesType = personalitiesTypeHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")
