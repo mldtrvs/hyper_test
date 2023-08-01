@@ -21,7 +21,7 @@ class tagsHelper:
         add_btn = wait.until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, "#grid-63_tab [role=toolbar] [buttonrole=add]")))
         add_btn.click()
-        self.app.driver.find_element(By.CSS_SELECTOR, "#form-62--1_popup [name=tag] [role=textbox]").send_keys(tag_name)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-62--1_popup [role=textbox]").send_keys(tag_name)
         type_selector = self.app.driver.find_element(By.CSS_SELECTOR, "#form-62--1_popup "
                                                                       ".data-myls__sys_tag_type_id .dx-selectbox")
         type_selector.click()
@@ -89,7 +89,7 @@ class tagsHelper:
                                                                                  "-63_tab_delete_current']")))
         delete_current.click()
         pass
-        time.sleep(3)
+        time.sleep(4)
 
     def check_if_deleted(self):
         total_records = self.app.driver.find_element(By.ID, "grid-63_tab_totalCount")
