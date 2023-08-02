@@ -17,12 +17,16 @@ class GenresHelper:
         genres.click()
         return wait
 
-    def add_new(self, wait, genre):
+    def add_new(self, wait, genre_ru, genre_en):
         # add new Genre
         add_btn = wait.until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, "#grid-9_tab [role=toolbar] [buttonrole=add]")))
         add_btn.click()
-        self.app.driver.find_element(By.CSS_SELECTOR, "#form-10--1_popup [role=textbox]").send_keys(genre)
+        self.app.driver.find_element(
+            By.CSS_SELECTOR, "#form-10--1_popup [name='genre_name_ru']").send_keys(genre_ru)
+        self.app.driver.find_element(
+            By.CSS_SELECTOR, "#form-10--1_popup [name='genre_name_en']").send_keys(genre_en)
+
         ok_btn = wait.until(
             EC.element_to_be_clickable((By.ID, "form-10--1_popup_save-button")))
         ok_btn.click()
