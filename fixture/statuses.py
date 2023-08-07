@@ -32,11 +32,6 @@ class statusesHelper:
         aria_owns_value = type_selector.get_attribute("aria-owns")
         return aria_owns_value
 
-    def set_range(self, aria_owns_value):
-        status_type_list = self.app.driver.find_elements(
-            By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox] [role=option]")
-        print("total_types:", len(status_type_list))
-        return status_type_list
 
     def choose_status_type(self, aria_owns_value, div_index):
         status_type = self.app.driver.find_element(
@@ -99,7 +94,6 @@ class statusesHelper:
         delete_current = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-button-type='grid"
                                                                                  "-15_tab_delete_current']")))
         delete_current.click()
-        pass
         time.sleep(3)
 
     def check_if_deleted(self):

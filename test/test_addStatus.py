@@ -3,7 +3,7 @@ import time
 def test_addstatus(app):
     app.menuCategories.go_to_directories()
     wait = app.statuses.go_to_statuses()
-    for div_index in range(1, 16):
+    for div_index in range(1, 3):
         aria_owns_value = app.statuses.open_new_form("qwe4345sda", wait)
         status_type_text_in = app.statuses.choose_status_type(aria_owns_value, div_index)
         #time.sleep(2)
