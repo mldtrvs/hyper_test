@@ -63,9 +63,8 @@ class currencyHelper:
         tr_attributes = tr_text.split('\n')
         print(tr_attributes)
 
-        # Define the expected input values based on your test input
         expected_values = [
-            f"Name: {currency}",
+            f"Currency: {currency}",
             f"Position: {position}",
             f"Short: {short}",
             f"Code: {code}",
