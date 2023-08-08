@@ -2,6 +2,8 @@ from selenium import webdriver
 
 from fixture.addressType import addressTypeHelper
 from fixture.ageRestrictions import ageRestrictionHelper
+from fixture.currency import currencyHelper
+from fixture.documentDetails import docDetailsHelper
 from fixture.documentType import DocumentTypeHelper
 from fixture.filmType import FilmTypeHelper
 from fixture.legalForms import legalFormHelper
@@ -38,6 +40,8 @@ class Application:
         self.personalitiesType = personalitiesTypeHelper(self)
         self.personalities = personalitiesHelper(self)
         self.licenceType = licenceTypeHelper(self)
+        self.docDetails = docDetailsHelper(self)
+        self.currency = currencyHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")

@@ -21,15 +21,15 @@ class docDetailsHelper:
         add_btn = wait.until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, "#grid-308_tab [role=toolbar] [buttonrole=add]")))
         add_btn.click()
-        self.app.driver.find_element(By.CSS_SELECTOR, "#form-309--1_popup [type_name]").send_keys(detail_name)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-309--1_popup [name=type_name]").send_keys(detail_name)
         affiliation_selector = self.app.driver.find_element(By.CSS_SELECTOR, "#form-309--1_popup "
-                                                                             ".data-myls__sys_tag_type_id .dx-selectbox")
+                                                                             ".data-myls__is_legal .dx-selectbox")
         affiliation_selector.click()
         aria_owns_value = affiliation_selector.get_attribute("aria-owns")
         print(aria_owns_value)
         return aria_owns_value
 
-    def choose_tag_type(self, aria_owns_value, div_index):
+    def choose_affiliation(self, aria_owns_value, div_index):
         affiliation = self.app.driver.find_element(
             By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child({div_index})")
         affiliation_text_in = affiliation.text
@@ -63,9 +63,9 @@ class docDetailsHelper:
 
     def check_selected_affiliation_match(self, affiliation_text_in, affiliation_text_out):
         if affiliation_text_in in affiliation_text_out:
-            print("Tag type match")
+            print("Affiliation match")
         else:
-            raise AssertionError(f"Tag type values differ. Expected: {affiliation_text_in}, Actual: {affiliation_text_out}")
+            raise AssertionError(f"Affiliation values differs. Expected: {affiliation_text_in}, Actual: {affiliation_text_out}")
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-308_tab_totalCount")
