@@ -65,7 +65,7 @@ class docDetailsHelper:
         if affiliation_text_in in affiliation_text_out:
             print("Affiliation match")
         else:
-            raise AssertionError(f"Affiliation values differs. Expected: {affiliation_text_in}, Actual: {affiliation_text_out}")
+            raise AssertionError(f"Affiliation values differ. Expected: {affiliation_text_in}, Actual: {affiliation_text_out}")
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-308_tab_totalCount")

@@ -42,12 +42,47 @@ class currencyHelper:
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-459--1_popup_save-button')))
         ok_btn.click()
 
-    def search_for_new_added(self, film_type):
+    def search_for_new_added(self, currency):
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-427_tab [role=textbox]")
         search_input.click()
         search_input.clear()
-        search_input.send_keys(film_type)
+        search_input.send_keys(currency)
         time.sleep(3)
+
+    def get_tr_values(self, currency, position, short, code, icon):
+        record_id = self.app.driver.find_element(By.ID, "grid-427_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        print(record_id_number)
+
+        wait = WebDriverWait(self.app.driver, 10)
+        tr_value = wait.until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-427_tab [data-id='{record_id_number}']")))
+
+        tr_text = tr_value.text
+        tr_attributes = tr_text.split('\n')
+        print(tr_attributes)
+
+        # Define the expected input values based on your test input
+        expected_values = [
+            f"Name: {currency}",
+            f"Position: {position}",
+            f"Short: {short}",
+            f"Code: {code}",
+            f"Icon: {icon}"
+        ]
+        tr_attributes_set = set(tr_attributes)
+
+        try:
+            if set(expected_values) == tr_attributes_set:
+                print("Values match")
+            else:
+                # Assertion failed, handle the failure or raise an exception
+                raise AssertionError(f"Expected {expected_values} , actual: {tr_attributes} records.")
+        except AssertionError as e:
+            pytest.fail(f"Test failed: {e}")
+
+    #assert tr_attributes == expected_values, f"TR attributes do not match expected values. Expected: {expected_values}, Actual: {tr_attributes}"
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-427_tab_totalCount")
