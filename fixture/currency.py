@@ -49,7 +49,7 @@ class currencyHelper:
         search_input.send_keys(currency)
         time.sleep(3)
 
-    def get_tr_values(self, currency, position, short, code, icon):
+    def get_tr_values(self):
         record_id = self.app.driver.find_element(By.ID, "grid-427_tab_totalId")
         text = record_id.text
         record_id_number = text.split(":")[1].strip()
@@ -62,26 +62,21 @@ class currencyHelper:
         tr_text = tr_value.text
         tr_attributes = tr_text.split('\n')
         print(tr_attributes)
+        return tr_attributes
 
-        expected_values = [
-            f"{currency}",
-            f"{position}",
-            f"{short}",
-            f"{code}",
-            f"{icon}"
-        ]
+    def check_tr_values_match(self, code, currency, icon, position, short, tr_attributes):
+        expected_values = [f"{currency}", f"{position}", f"{short}", f"{code}", f"{icon}"]
         tr_attributes_set = set(tr_attributes)
-
         try:
             if set(expected_values) == tr_attributes_set:
-                print("Values match")
+                print("tr values match")
             else:
                 # Assertion failed, handle the failure or raise an exception
                 raise AssertionError(f"Expected {expected_values} , actual: {tr_attributes} records.")
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
 
-    #assert tr_attributes == expected_values, f"TR attributes do not match expected values. Expected: {expected_values}, Actual: {tr_attributes}"
+    # assert tr_attributes == expected_values, f"TR attributes do not match expected values. Expected: {expected_values}, Actual: {tr_attributes}"
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-427_tab_totalCount")
