@@ -80,20 +80,20 @@ class personalitiesHelper:
             By.CSS_SELECTOR, "#grid-2_tab [role=toolbar] [buttonrole=edit]")))
         edit_btn.click()
         personality_ru_edit = self.app.driver.find_element(
-            By.CSS_SELECTOR, f"#form-3--{record_id_number}_popup [name='star_name_ru']")
+            By.CSS_SELECTOR, f"#form-3--'{record_id_number}'_popup [name='star_name_ru']")
         personality_ru_edit.clear()
         personality_ru_edit.send_keys(edit_ru)
 
         self.app.driver.find_element(
-            By.CSS_SELECTOR, f"#form-3--{record_id_number}_popup .dx-tabs-wrapper>div:nth-child(2)").click()
+            By.CSS_SELECTOR, f"#form-3--'{record_id_number}'_popup .dx-tabs-wrapper>div:nth-child(2)").click()
 
         personality_en_edit = self.app.driver.find_element(By.CSS_SELECTOR,
-                                                           f"#form-3--{record_id_number}_popup [name='star_name_en']")
+                                                           f"#form-3--'{record_id_number}'_popup [name='star_name_en']")
         personality_en_edit.clear()
         personality_en_edit.send_keys(edit_en)
 
         ok_btn = wait.until(
-            EC.element_to_be_clickable((By.ID, "form-3--1_popup_save-button")))
+            EC.element_to_be_clickable((By.ID, f"form-3--'{record_id_number}'_popup_save-button")))
         ok_btn.click()
 
     def delete_record(self, wait):
