@@ -50,11 +50,11 @@ class personalitiesHelper:
         search_input.send_keys(person_type)
         time.sleep(3)
 
-    def search_for_new_added_en(self, person_type_en):
+    def search_for_new_added_en(self, input_text):
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-2_tab [role=textbox]")
         search_input.click()
         search_input.clear()
-        search_input.send_keys(person_type_en)
+        search_input.send_keys(input_text)
         time.sleep(3)
 
     def check_if_added(self):
@@ -70,17 +70,40 @@ class personalitiesHelper:
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
 
+    def edit(self, wait, edit_ru, edit_en):
+        record_id = self.app.driver.find_element(By.ID, "grid-2_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        print(record_id_number)
+
+        edit_btn = wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, "#grid-2_tab [role=toolbar] [buttonrole=edit]")))
+        edit_btn.click()
+        personality_ru_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-3--{record_id_number}_popup [name='star_name_ru']")
+        personality_ru_edit.clear()
+        personality_ru_edit.send_keys(edit_ru)
+
+        self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-3--{record_id_number}_popup .dx-tabs-wrapper>div:nth-child(2)").click()
+
+        personality_en_edit = self.app.driver.find_element(By.CSS_SELECTOR,
+                                                           f"#form-3--{record_id_number}_popup [name='star_name_en']")
+        personality_en_edit.clear()
+        personality_en_edit.send_keys(edit_en)
+
+        ok_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, "form-3--1_popup_save-button")))
+        ok_btn.click()
+
     def delete_record(self, wait):
         delete_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
                                                             "#grid-2_tab [role=toolbar] [role=button][buttonrole=delete]")))
         delete_btn.click()
-        # self.app.driver.find_element(By.CSS_SELECTOR,
-        #                              "#grid-9_tab [role=toolbar] [buttonrole=delete]").click()
         time.sleep(1)
         delete_current = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-button-type='grid"
                                                                                  "-2_tab_delete_current']")))
         delete_current.click()
-        pass
         time.sleep(3)
 
     def check_if_deleted(self):

@@ -16,6 +16,7 @@ from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
 from fixture.statuses import statusesHelper
 from fixture.tags import tagsHelper
+from fixture.territories import territoriesHelper
 from fixture.videoFormat import VideoFormatHelper
 from fixture.positions import positionsHelper
 
@@ -42,6 +43,7 @@ class Application:
         self.licenceType = licenceTypeHelper(self)
         self.docDetails = docDetailsHelper(self)
         self.currency = currencyHelper(self)
+        self.territories = territoriesHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")
