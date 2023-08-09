@@ -64,11 +64,11 @@ class currencyHelper:
         print(tr_attributes)
 
         expected_values = [
-            f"Currency: {currency}",
-            f"Position: {position}",
-            f"Short: {short}",
-            f"Code: {code}",
-            f"Icon: {icon}"
+            f"{currency}",
+            f"{position}",
+            f"{short}",
+            f"{code}",
+            f"{icon}"
         ]
         tr_attributes_set = set(tr_attributes)
 
