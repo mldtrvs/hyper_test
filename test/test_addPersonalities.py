@@ -12,6 +12,7 @@ def test_addPersonalities(app):
     app.personalities.check_if_added()
 
     app.personalities.edit(wait, 'bbnrrf121vfv', 'asasdqre645fg')
+    time.sleep(3)
     app.personalities.search_for_new_added_ru('bbnrrf121vfv')
     app.personalities.check_if_added()
     app.personalities.search_for_new_added_en('asasdqre645fg')
