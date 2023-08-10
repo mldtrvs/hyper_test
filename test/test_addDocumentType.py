@@ -8,5 +8,11 @@ def test_addDocumentType(app):
     time.sleep(2)
     app.documentType.search_for_new_added("yljw72lkdjek")
     app.documentType.check_if_added()
+
+    app.documentType.edit(wait, "cdccaswszx12")
+    time.sleep(2)
+    app.documentType.search_for_new_added("cdccaswszx12")
+    app.documentType.check_if_added()
+
     app.documentType.delete_record(wait)
     app.documentType.check_if_deleted()

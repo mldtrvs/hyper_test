@@ -22,7 +22,8 @@ class DocumentTypeHelper:
         add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-294_tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
-        self.app.driver.find_element(By.CSS_SELECTOR, "#form-295--1_popup [role=textbox]").send_keys(document_type_name)
+        self.app.driver.find_element(
+            By.CSS_SELECTOR, "#form-295--1_popup [name='type_name']").send_keys(document_type_name)
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-295--1_popup_save-button')))
         ok_btn.click()
 
@@ -49,12 +50,34 @@ class DocumentTypeHelper:
         expected_count = '1'
         try:
             if expected_count in total_records_value:
-                print("Total records is 1. Proceeding to deletion.")
+                print("Total records is 1. Proceeding to next step.")
             else:
                 # Assertion failed, handle the failure or raise an exception
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
+            
+    def edit(self, wait, edit):
+        record_id_number = self.get_record_id()
+
+        edit_btn = wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, "#grid-294_tab [role=toolbar] [buttonrole=edit]")))
+        edit_btn.click()
+        document_type_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-295-{record_id_number}_popup [name='type_name']")
+        document_type_edit.clear()
+        document_type_edit.send_keys(edit)
+
+        ok_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, f"form-295-{record_id_number}_popup_save-button")))
+        ok_btn.click()
+
+    def get_record_id(self):
+        record_id = self.app.driver.find_element(By.ID, "grid-294_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        # print(record_id_number)
+        return record_id_number
 
     def delete_record(self, wait):
 
