@@ -34,7 +34,7 @@ class positionsHelper:
         add_btn = wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, '#grid-383_tab [role=toolbar] [buttonrole=add]')))
         add_btn.click()
-        self.app.driver.find_element(By.CSS_SELECTOR, "#form-457--1_popup [role=textbox]").send_keys(position_name)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-457--1_popup [name='post_name']").send_keys(position_name)
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-457--1_popup_save-button')))
         ok_btn.click()
 
@@ -57,6 +57,28 @@ class positionsHelper:
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
+
+    def edit(self, wait, edit):
+        record_id_number = self.get_record_id()
+
+        edit_btn = wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, "#grid-383_tab [role=toolbar] [buttonrole=edit]")))
+        edit_btn.click()
+        position_name_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-457-{record_id_number}_popup [name='post_name']")
+        position_name_edit.clear()
+        position_name_edit.send_keys(edit)
+
+        ok_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, f"form-457-{record_id_number}_popup_save-button")))
+        ok_btn.click()
+
+    def get_record_id(self):
+        record_id = self.app.driver.find_element(By.ID, "grid-383_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        # print(record_id_number)
+        return record_id_number
 
     def delete_record(self, wait):
 
