@@ -30,15 +30,17 @@ class personalitiesTypeHelper:
         action_chains.move_to_element(menu_scrollbar).perform()
         action_chains.drag_and_drop_by_offset(menu_scrollbar, 0, 164).perform()
 
-    def add_new(self, wait, person_type_ru , person_type_en):
+    def add_new(self, wait, person_type_ru, person_type_en):
         # add new Genre
         add_btn = wait.until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, "#grid-381_tab [role=toolbar] [buttonrole=add]")))
         add_btn.click()
         self.app.driver.find_element(By.CSS_SELECTOR,
-                                     "#form-382--1_popup .dx-box-flex > :nth-child(1) [role=textbox]").send_keys(person_type_ru)
+                                     "#form-382--1_popup .dx-box-flex > :nth-child(1) [role=textbox]").send_keys(
+            person_type_ru)
         self.app.driver.find_element(By.CSS_SELECTOR,
-                                     "#form-382--1_popup .dx-box-flex > :nth-child(2) [role=textbox]").send_keys(person_type_en)
+                                     "#form-382--1_popup .dx-box-flex > :nth-child(2) [role=textbox]").send_keys(
+            person_type_en)
         ok_btn = wait.until(
             EC.element_to_be_clickable((By.ID, "form-382--1_popup_save-button")))
         ok_btn.click()
@@ -96,6 +98,7 @@ class personalitiesTypeHelper:
         record_id_number = text.split(":")[1].strip()
         # print(record_id_number)
         return record_id_number
+
     def delete_record(self, wait):
         delete_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
                                                             "#grid-381_tab [role=toolbar] [buttonrole=delete]")))

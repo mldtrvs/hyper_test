@@ -10,7 +10,7 @@ def test_addPosition(app):
     app.positions.search_for_new_added("hijnoii257")
     app.positions.check_if_added()
 
-    app.positions.add_new(wait, "telkla3324")
+    app.positions.edit(wait, "telkla3324")
     time.sleep(2)
     app.positions.search_for_new_added("telkla3324")
     app.positions.check_if_added()

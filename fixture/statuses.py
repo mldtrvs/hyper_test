@@ -32,7 +32,6 @@ class statusesHelper:
         aria_owns_value = type_selector.get_attribute("aria-owns")
         return aria_owns_value
 
-
     def choose_status_type(self, aria_owns_value, div_index):
         status_type = self.app.driver.find_element(
             By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child({div_index})")
@@ -54,9 +53,7 @@ class statusesHelper:
         search_input.send_keys(status_name)
 
     def get_status_type_value(self):
-        record_id = self.app.driver.find_element(By.ID, "grid-15_tab_totalId")
-        text = record_id.text
-        record_id_number = text.split(":")[1].strip()
+        record_id_number = self.get_record_id()
         print("id:", record_id_number)
 
         wait = WebDriverWait(self.app.driver, 10)
@@ -85,6 +82,28 @@ class statusesHelper:
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
+
+    def edit(self, wait, edit):
+        record_id_number = self.get_record_id()
+
+        edit_btn = wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, "#grid-15_tab [role=toolbar] [buttonrole=edit]")))
+        edit_btn.click()
+        status_name_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-16-{record_id_number}_popup [name='status_name']")
+        status_name_edit.clear()
+        status_name_edit.send_keys(edit)
+
+        ok_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, f"form-16-{record_id_number}_popup_save-button")))
+        ok_btn.click()
+
+    def get_record_id(self):
+        record_id = self.app.driver.find_element(By.ID, "grid-15_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        # print(record_id_number)
+        return record_id_number
 
     def delete_record(self, wait):
         del_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
