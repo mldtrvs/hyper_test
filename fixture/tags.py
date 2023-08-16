@@ -21,7 +21,7 @@ class tagsHelper:
         add_btn = wait.until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, "#grid-63_tab [role=toolbar] [buttonrole=add]")))
         add_btn.click()
-        self.app.driver.find_element(By.CSS_SELECTOR, "#form-62--1_popup [role=textbox]").send_keys(tag_name)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-62--1_popup [name='tag']").send_keys(tag_name)
         type_selector = self.app.driver.find_element(By.CSS_SELECTOR, "#form-62--1_popup "
                                                                       ".data-myls__sys_tag_type_id .dx-selectbox")
         type_selector.click()
@@ -49,9 +49,7 @@ class tagsHelper:
         search_input.send_keys(tag_name)
 
     def get_tag_type_value(self):
-        record_id = self.app.driver.find_element(By.ID, "grid-63_tab_totalId")
-        text = record_id.text
-        record_id_number = text.split(":")[1].strip()
+        record_id_number = self.get_record_id()
         print(record_id_number)
 
         wait = WebDriverWait(self.app.driver, 10)
@@ -73,12 +71,35 @@ class tagsHelper:
         expected_count = '1'
         try:
             if expected_count in total_records_value:
-                print("Total records is 1. Proceeding to deletion.")
+                print("Total records is 1. Proceeding to next step.")
             else:
                 # Assertion failed, handle the failure or raise an exception
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
+
+    def edit(self, wait, edit):
+        record_id_number = self.get_record_id()
+
+        edit_btn = wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, "#grid-63_tab [role=toolbar] [buttonrole=edit]")))
+        edit_btn.click()
+        tag_name_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-62-{record_id_number}_popup [name='tag']")
+        tag_name_edit.clear()
+        tag_name_edit.send_keys(edit)
+
+        ok_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, f"form-62-{record_id_number}_popup_save-button")))
+        ok_btn.click()
+
+    def get_record_id(self):
+        record_id = self.app.driver.find_element(By.ID, "grid-63_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        # print(record_id_number)
+        return record_id_number
+
 
     def delete_record(self, wait):
 

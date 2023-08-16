@@ -9,7 +9,7 @@ def test_addstatus(app):
         app.statuses.save_form(wait)
 
         app.statuses.search_for_new_added("qwe4345sda")
-        #time.sleep(4)
+        time.sleep(4)
         status_type_text_out = app.statuses.get_status_type_value()
         app.statuses.check_selected_status_type_match(status_type_text_in, status_type_text_out)
         time.sleep(4)
