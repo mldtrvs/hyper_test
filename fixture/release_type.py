@@ -33,7 +33,7 @@ class releaseTypeHelper:
         add_btn = wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, '#grid-407_tab [role=toolbar] [buttonrole=add]')))
         add_btn.click()
-        self.app.driver.find_element(By.CSS_SELECTOR, "#form-458--1_popup [role=textbox]").send_keys(release_type)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-458--1_popup [name='type_name']").send_keys(release_type)
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-458--1_popup_save-button')))
         ok_btn.click()
         return wait
@@ -57,6 +57,28 @@ class releaseTypeHelper:
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
+
+    def edit(self, wait, edit):
+        record_id_number = self.get_record_id()
+
+        edit_btn = wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, "#grid-407_tab [role=toolbar] [buttonrole=edit]")))
+        edit_btn.click()
+        release_name_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-458-{record_id_number}_popup [name='type_name']")
+        release_name_edit.clear()
+        release_name_edit.send_keys(edit)
+
+        ok_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, f"form-458-{record_id_number}_popup_save-button")))
+        ok_btn.click()
+
+    def get_record_id(self):
+        record_id = self.app.driver.find_element(By.ID, "grid-407_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        # print(record_id_number)
+        return record_id_number
 
     def delete_record(self, wait):
 

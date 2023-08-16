@@ -36,7 +36,7 @@ class legalFormHelper:
         add_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-342_tab [role=toolbar] ["
                                                                           "buttonrole=add]")))
         add_btn.click()
-        self.app.driver.find_element(By.CSS_SELECTOR, "#form-344--1_popup [role=textbox]").send_keys(legal_form_name)
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-344--1_popup [name='form_name']").send_keys(legal_form_name)
         ok_btn = wait.until(EC.element_to_be_clickable((By.ID, 'form-344--1_popup_save-button')))
         ok_btn.click()
         return wait
@@ -71,6 +71,21 @@ class legalFormHelper:
         if checkbox_value == "false":
             pytest.fail("Checkbox value is False.")
 
+    def edit(self, wait, edit):
+        record_id_number = self.get_record_id()
+
+        edit_btn = wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, "#grid-342_tab [role=toolbar] [buttonrole=edit]")))
+        edit_btn.click()
+        form_name_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-344-{record_id_number}_popup [name='form_name']")
+        form_name_edit.clear()
+        form_name_edit.send_keys(edit)
+
+        ok_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, f"form-344-{record_id_number}_popup_save-button")))
+        ok_btn.click()
+
     def get_record_id(self):
         record_id = self.app.driver.find_element(By.ID, "grid-342_tab_totalId")
         text = record_id.text
@@ -83,7 +98,7 @@ class legalFormHelper:
         expected_count = '1'
         try:
             if expected_count in total_records_value:
-                print("Total records is 1. Proceeding to deletion.")
+                print("Total records is 1. Proceeding to next step.")
             else:
                 # Assertion failed, handle the failure or raise an exception
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")

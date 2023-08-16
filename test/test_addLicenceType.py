@@ -12,5 +12,11 @@ def test_licence_type(app):
         licence_type_text_out = app.licenceType.get_licence_type_value()
         app.licenceType.check_selected_licence_type_match(licence_type_text_in, licence_type_text_out)
         app.licenceType.check_if_added()
+
+        app.licenceType.edit(wait, "wqdaasdq23")
+        app.licenceType.search_for_new_added("wqdaasdq23")
+        time.sleep(4)
+        app.licenceType.check_if_added()
+
         app.licenceType.delete_record(wait)
         app.licenceType.check_if_deleted()

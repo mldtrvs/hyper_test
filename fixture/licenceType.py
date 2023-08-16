@@ -74,11 +74,11 @@ class licenceTypeHelper:
         print(licence_type_text_out)
         return licence_type_text_out
 
-    def check_selected_licence_type_match(self, tag_type_text_in, tag_type_text_out):
-        if tag_type_text_in in tag_type_text_out:
+    def check_selected_licence_type_match(self, licence_type_text_in, licence_type_text_out):
+        if licence_type_text_in in licence_type_text_out:
             print("Licence type match")
         else:
-            raise AssertionError(f"Licence type values differ. Expected: {tag_type_text_in}, Actual: {tag_type_text_out}")
+            raise AssertionError(f"Licence type values differ. Expected: {licence_type_text_in}, Actual: {licence_type_text_out}")
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-314_tab_totalCount")
@@ -92,6 +92,28 @@ class licenceTypeHelper:
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
+            
+    def edit(self, wait, edit):
+        record_id_number = self.get_record_id()
+
+        edit_btn = wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, "#grid-314_tab [role=toolbar] [buttonrole=edit]")))
+        edit_btn.click()
+        licence_name_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-315-{record_id_number}_popup [name='type_name']")
+        licence_name_edit.clear()
+        licence_name_edit.send_keys(edit)
+
+        ok_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, f"form-315-{record_id_number}_popup_save-button")))
+        ok_btn.click()
+
+    def get_record_id(self):
+        record_id = self.app.driver.find_element(By.ID, "grid-314_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        # print(record_id_number)
+        return record_id_number
 
     def delete_record(self, wait):
 
