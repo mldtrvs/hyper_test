@@ -46,3 +46,23 @@ class projectHelper:
             EC.visibility_of_element_located((By.ID, "form-277--1_popup_save-button")))
         ok_btn.click()
 
+    def search_for_new_added(self, wait, title):
+        search_input = wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "#grid-276_tab [role=textbox]")))
+        search_input.click()
+        search_input.clear()
+        search_input.send_keys(title)
+
+    def check_if_added(self):
+        total_records = self.app.driver.find_element(By.ID, "grid-276_tab_totalCount")
+        total_records_value = total_records.text
+        expected_count = '1'
+        try:
+            if expected_count in total_records_value:
+                print("Total records is 1. Proceeding to next step.")
+            else:
+                # Assertion failed, handle the failure or raise an exception
+                raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
+        except AssertionError as e:
+            pytest.fail(f"Test failed: {e}")
+
