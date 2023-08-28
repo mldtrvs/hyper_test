@@ -48,7 +48,7 @@ class projectHelper:
 
     def search_for_new_added(self, wait, title):
         search_input = wait.until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "#grid-276_tab [role=textbox]")))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-276_tab [role=textbox]")))
         search_input.click()
         search_input.clear()
         search_input.send_keys(title)
