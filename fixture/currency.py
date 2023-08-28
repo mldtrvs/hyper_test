@@ -76,20 +76,61 @@ class currencyHelper:
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
 
-    # assert tr_attributes == expected_values, f"TR attributes do not match expected values. Expected: {expected_values}, Actual: {tr_attributes}"
-
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-427_tab_totalCount")
         total_records_value = total_records.text
         expected_count = '1'
         try:
             if expected_count in total_records_value:
-                print("Total records is 1. Proceeding to deletion.")
+                print("Total records is 1. Proceeding to next step.")
             else:
                 # Assertion failed, handle the failure or raise an exception
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
+
+    def edit(self, wait, edit_name, edit_pos, edit_short, edit_code, edit_icon):
+        record_id_number = self.get_record_id()
+
+        edit_btn = wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, "#grid-427_tab [role=toolbar] [buttonrole=edit]")))
+        edit_btn.click()
+
+        currency_name_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-459-{record_id_number}_popup [name='name']")
+        currency_name_edit.clear()
+        currency_name_edit.send_keys(edit_name)
+
+        position_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-459-{record_id_number}_popup [role=spinbutton]")
+        position_edit.clear()
+        position_edit.send_keys(edit_pos)
+
+        short_name_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-459-{record_id_number}_popup [name='cur']")
+        short_name_edit.clear()
+        short_name_edit.send_keys(edit_short)
+
+        code_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-459-{record_id_number}_popup [name='brief']")
+        code_edit.clear()
+        code_edit.send_keys(edit_code)
+
+        icon_edit = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#form-459-{record_id_number}_popup [name='icon']")
+        icon_edit.clear()
+        icon_edit.send_keys(edit_icon)
+
+        ok_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, f"form-459-{record_id_number}_popup_save-button")))
+        ok_btn.click()
+
+    def get_record_id(self):
+        record_id = self.app.driver.find_element(By.ID, "grid-427_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        # print(record_id_number)
+        return record_id_number
 
     def delete_record(self, wait):
 
