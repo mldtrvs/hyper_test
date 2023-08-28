@@ -21,3 +21,14 @@ class menuCategorySelectorHelper:
             #     By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(8)>div:first-child")
             directories.click()
             return wait
+
+    def go_to_general(self):
+        general_dropdown = self.app.driver.find_element(By.CSS_SELECTOR,
+                                                        ".panel-list [role=listbox]>div:nth-child("
+                                                        "2)>.dx-list-group-body")
+        if not general_dropdown.is_displayed():
+            wait = WebDriverWait(self.app.driver, 20)
+            projects = wait.until(EC.element_to_be_clickable((
+                By.CSS_SELECTOR, ".panel-list [role=listbox]>div:nth-child(2)>div:first-child")))
+            projects.click()
+            return wait

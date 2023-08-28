@@ -11,6 +11,7 @@ from fixture.licenceType import licenceTypeHelper
 from fixture.menu_category_selector import menuCategorySelectorHelper
 from fixture.personalities import personalitiesHelper
 from fixture.personalities_type import personalitiesTypeHelper
+from fixture.projects import projectHelper
 from fixture.release_type import releaseTypeHelper
 from fixture.session import SessionHelper
 from fixture.genres import GenresHelper
@@ -23,7 +24,8 @@ from fixture.positions import positionsHelper
 
 class Application:
     def __init__(self):
-        self.driver = webdriver.Chrome()
+        PATH = "C:/Program Files (x86)/chromedriver.exe"
+        self.driver = webdriver.Chrome(PATH)
         self.driver.implicitly_wait(10)
         self.session = SessionHelper(self)
         self.filmType = FilmTypeHelper(self)
@@ -44,6 +46,7 @@ class Application:
         self.docDetails = docDetailsHelper(self)
         self.currency = currencyHelper(self)
         self.territories = territoriesHelper(self)
+        self.projects = projectHelper(self)
 
     def open_HGfilm(self):
         self.driver.get("https://kino01.id-network.ru/")
