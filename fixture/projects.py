@@ -41,6 +41,11 @@ class projectHelper:
         production_type.click()
         return production_type_text_in
 
+    def choose_genre_type(self):
+        genre_type = self.app.driver.find_element(By.CSS_SELECTOR,
+                                                  "#form-277--1_popup .data-myls__genres [role=combobox]")
+        genre_type.click()
+
     def save_form(self, wait):
         ok_btn = wait.until(
             EC.visibility_of_element_located((By.ID, "form-277--1_popup_save-button")))
@@ -66,4 +71,3 @@ class projectHelper:
                 raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
         except AssertionError as e:
             pytest.fail(f"Test failed: {e}")
-
