@@ -47,6 +47,7 @@ class projectHelper:
         ok_btn.click()
 
     def search_for_new_added(self, wait, title):
+        wait.until(EC.invisibility_of_element((By.CSS_SELECTOR, "form-277--1_popup")))
         search_input = wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-276_tab [role=textbox]")))
         search_input.click()
