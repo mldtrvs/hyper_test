@@ -45,6 +45,9 @@ class projectHelper:
         genre_type = self.app.driver.find_element(By.CSS_SELECTOR,
                                                   "#form-277--1_popup .data-myls__genres [role=combobox]")
         genre_type.click()
+        gt_aria_owns_value = genre_type.get_attribute("aria-owns")
+        print(gt_aria_owns_value)
+        return gt_aria_owns_value
 
     def save_form(self, wait):
         ok_btn = wait.until(
