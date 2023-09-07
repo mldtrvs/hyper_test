@@ -41,13 +41,18 @@ class projectHelper:
         production_type.click()
         return production_type_text_in
 
-    def choose_genre_type(self):
-        genre_type = self.app.driver.find_element(By.CSS_SELECTOR,
+    def choose_genre_type(self, div_index_gt):
+        genre_type_selector = self.app.driver.find_element(By.CSS_SELECTOR,
                                                   "#form-277--1_popup .data-myls__genres [role=combobox]")
-        genre_type.click()
-        gt_aria_owns_value = genre_type.get_attribute("aria-owns")
+        genre_type_selector.click()
+        gt_aria_owns_value = genre_type_selector.get_attribute("aria-owns")
         print(gt_aria_owns_value)
-        return gt_aria_owns_value
+        genre_type = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=listbox]>div:nth-child({div_index_gt})")
+        genre_type_text_in = genre_type.text
+        print(genre_type_text_in)
+        genre_type.click()
+        return gt_aria_owns_value, genre_type
 
     def save_form(self, wait):
         ok_btn = wait.until(
