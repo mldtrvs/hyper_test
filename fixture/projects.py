@@ -52,6 +52,7 @@ class projectHelper:
         genre_type_text_in = genre_type.text
         print(genre_type_text_in)
         genre_type.click()
+        genre_type_selector.click()
         return gt_aria_owns_value, genre_type
 
     def save_form(self, wait):
