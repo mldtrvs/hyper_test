@@ -100,7 +100,6 @@ class tagsHelper:
         # print(record_id_number)
         return record_id_number
 
-
     def delete_record(self, wait):
 
         self.app.driver.find_element(By.CSS_SELECTOR,

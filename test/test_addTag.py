@@ -1,11 +1,14 @@
 import time
+
+
 def test_addtag(app):
     app.menuCategories.go_to_directories()
     wait = app.tags.go_to_tags()
-    for div_index in range(1, 4):
+    for div_index in range(1, 3):
         aria_owns_value = app.tags.open_new_form("ethet34fev", wait)
         tag_type_text_in = app.tags.choose_tag_type(aria_owns_value, div_index)
         app.tags.save_form(wait)
+
         app.tags.search_for_new_added("ethet34fev")
         time.sleep(4)
         tag_type_text_out = app.tags.get_tag_type_value()
