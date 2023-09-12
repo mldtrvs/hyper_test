@@ -42,26 +42,21 @@ class projectHelper:
             By.CSS_SELECTOR, f"#{aria_owns_value} [role=listbox]>div:nth-child(3)")
         production_type.click()
 
-        start_date = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#form-277--1_popup [name='start_date_right']")))
-
-        start_date.click()
-        start_date.send_keys("10.10.2023")
-
         try:
             # Check if the readonly element exists
             self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup .dx-state-readonly")
         except NoSuchElementException:
             # If it doesn't exist, send keys to the start_date element
-            start_date = self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup [name='start_date_right']")
+            start_date = self.app.driver.find_element(By.CSS_SELECTOR,
+                                                      "#form-277--1_popup [name=start_date_right] + div > div > input")
 
             start_date.click()
             start_date.send_keys("10.10.2023")
+            self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
         else:
             # Handle the case where the readonly element exists (optional)
             # You can log a message or perform other actions if needed.
             print("Start date is in readonly state.")
-
-        #return production_type_text_in
 
     def random_choice_production_type(self, aria_owns_value, wait):
         production_type_elements = self.app.driver.find_elements(
@@ -78,10 +73,12 @@ class projectHelper:
             self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup .dx-state-readonly")
         except NoSuchElementException:
             # If it doesn't exist, send keys to the start_date element
-            start_date = self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup [name='start_date_right']")
+            start_date = self.app.driver.find_element(By.CSS_SELECTOR,
+                                                      "#form-277--1_popup [name=start_date_right] + div > div > input")
 
             start_date.click()
             start_date.send_keys("10.10.2023")
+            self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
         else:
             # Handle the case where the readonly element exists (optional)
             # You can log a message or perform other actions if needed.
@@ -89,36 +86,36 @@ class projectHelper:
 
         return production_type_text_in
 
-    def random_choice_genre_type(self):
-        genre_type_selector = self.app.driver.find_element(By.CSS_SELECTOR,
-                                                           "#form-277--1_popup .data-myls__genres [role=combobox]")
+    def random_choice_genre_type(self, wait):
+        genre_type_selector = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#form-277--1_popup"
+                                                                                      "-tab_0_genres_tagbox")))
         genre_type_selector.click()
         gt_aria_owns_value = genre_type_selector.get_attribute("aria-owns")
         print(gt_aria_owns_value)
 
         # Get the total number of checkboxes available
-        checkboxes = self.app.driver.find_elements(By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=checkbox]>div")
-        total_checkboxes = len(checkboxes)
-        print(total_checkboxes)
+        # checkboxes = self.app.driver.find_elements(By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=checkbox]>div")
+        # total_checkboxes = len(checkboxes)
+        # print(total_checkboxes)
 
         # Generate a list of random indices, excluding div_index_gt
-        random_indices = [i for i in range(2, total_checkboxes + 1)]  # if i != div_index_gt]
-
-        # Randomly choose the number of checkboxes to select between 1 and the total number of checkboxes
-        num_checkboxes_to_select = random.randint(1, total_checkboxes)
-
-        # Randomly select a subset of checkboxes
-        selected_indices = random.sample(random_indices, num_checkboxes_to_select)
-
-        for index in selected_indices:
-            genre_type = self.app.driver.find_element(
-                By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=listbox]>div:nth-child({index})")
-            genre_type_text_in = genre_type.text
-            print(f"Selected genre type: {genre_type_text_in}")
-            genre_type.click()
-
-        genre_type_selector.click()
-        return gt_aria_owns_value, selected_indices
+        # random_indices = [i for i in range(2, total_checkboxes + 1)]  # if i != div_index_gt]
+        #
+        # # Randomly choose the number of checkboxes to select between 1 and the total number of checkboxes
+        # num_checkboxes_to_select = random.randint(1, total_checkboxes)
+        #
+        # # Randomly select a subset of checkboxes
+        # selected_indices = random.sample(random_indices, num_checkboxes_to_select)
+        #
+        # for index in selected_indices:
+        #     genre_type = self.app.driver.find_element(
+        #         By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=listbox]>div:nth-child({index})")
+        #     genre_type_text_in = genre_type.text
+        #     print(f"Selected genre type: {genre_type_text_in}")
+        #     genre_type.click()
+        #
+        # genre_type_selector.click()
+        # return gt_aria_owns_value, selected_indices
 
     def scroll_menu(self, wait, gt_aria_owns_value):
         menu_scrollbar = wait.until(
