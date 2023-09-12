@@ -48,7 +48,7 @@ class projectHelper:
         except NoSuchElementException:
             # If it doesn't exist, send keys to the start_date element
             start_date = self.app.driver.find_element(By.CSS_SELECTOR,
-                                                      "#form-277--1_popup [name=start_date_right] + div > div > input")
+                                                      "#form-277--1_popup [name=start_date_right] + div input")
 
             start_date.click()
             start_date.send_keys("10.10.2023")
@@ -74,7 +74,7 @@ class projectHelper:
         except NoSuchElementException:
             # If it doesn't exist, send keys to the start_date element
             start_date = self.app.driver.find_element(By.CSS_SELECTOR,
-                                                      "#form-277--1_popup [name=start_date_right] + div > div > input")
+                                                      "#form-277--1_popup [name=start_date_right] + div input")
 
             start_date.click()
             start_date.send_keys("10.10.2023")
@@ -94,9 +94,11 @@ class projectHelper:
         print(gt_aria_owns_value)
 
         # Get the total number of checkboxes available
-        # checkboxes = self.app.driver.find_elements(By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=checkbox]>div")
-        # total_checkboxes = len(checkboxes)
-        # print(total_checkboxes)
+        checkboxes = wait.until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role"
+                                                                                        f"=checkbox]>div")))
+        total_checkboxes = len(checkboxes)
+        print(total_checkboxes)
+        return gt_aria_owns_value, total_checkboxes
 
         # Generate a list of random indices, excluding div_index_gt
         # random_indices = [i for i in range(2, total_checkboxes + 1)]  # if i != div_index_gt]
