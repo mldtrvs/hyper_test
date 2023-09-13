@@ -55,7 +55,6 @@ class projectHelper:
             self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
         else:
             # Handle the case where the readonly element exists (optional)
-            # You can log a message or perform other actions if needed.
             print("Start date is in readonly state.")
 
     def random_choice_production_type(self, aria_owns_value, wait):
@@ -81,7 +80,6 @@ class projectHelper:
             self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
         else:
             # Handle the case where the readonly element exists (optional)
-            # You can log a message or perform other actions if needed.
             print("Start date is in readonly state.")
 
         return production_type_text_in
@@ -93,33 +91,50 @@ class projectHelper:
         gt_aria_owns_value = genre_type_selector.get_attribute("aria-owns")
         print(gt_aria_owns_value)
 
-        # Get the total number of checkboxes available
-        checkboxes = wait.until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role"
-                                                                                        f"=checkbox]>div")))
+        # # Get the total number of checkboxes available
+        # checkboxes = wait.until(
+        #     EC.visibility_of_all_elements_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=checkbox]>div")))
+        # total_checkboxes = len(checkboxes)
+        # print(total_checkboxes)
+        # return gt_aria_owns_value, total_checkboxes
+
+        checkboxes = wait.until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=option]")))
         total_checkboxes = len(checkboxes)
         print(total_checkboxes)
+
+        # if len(checkboxes) >= 5:
+        #     # Click on the first 5 checkboxes individually
+        #     for i in range(5):
+        #         checkboxes[i].click()
+        # else:
+        #     print("There are not enough checkboxes to click.")
+        if len(checkboxes) >= 10:
+            # Randomly select a subset of checkboxes (between 0 and 5)
+            num_to_select = random.randint(0, 10)
+            selected_indices = random.sample(range(10),
+                                             num_to_select)  # Randomly choose indices from the first 5 checkboxes
+
+            # Click on the checkboxes at the selected indices
+            for index in selected_indices:
+                checkboxes[index].click()
+        else:
+            print("There are not enough checkboxes to click.")
+
+        self.scroll_genres(gt_aria_owns_value, wait)
+        num_to_select = random.randint(0, 10)
+        selected_indices = random.sample(range(20),
+                                         num_to_select)  # Randomly choose indices from the first 5 checkboxes
+
+        # Click on the checkboxes at the selected indices
+        for index in selected_indices:
+            checkboxes[index].click()
+
+        self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
+
         return gt_aria_owns_value, total_checkboxes
 
-        # Generate a list of random indices, excluding div_index_gt
-        # random_indices = [i for i in range(2, total_checkboxes + 1)]  # if i != div_index_gt]
-        #
-        # # Randomly choose the number of checkboxes to select between 1 and the total number of checkboxes
-        # num_checkboxes_to_select = random.randint(1, total_checkboxes)
-        #
-        # # Randomly select a subset of checkboxes
-        # selected_indices = random.sample(random_indices, num_checkboxes_to_select)
-        #
-        # for index in selected_indices:
-        #     genre_type = self.app.driver.find_element(
-        #         By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=listbox]>div:nth-child({index})")
-        #     genre_type_text_in = genre_type.text
-        #     print(f"Selected genre type: {genre_type_text_in}")
-        #     genre_type.click()
-        #
-        # genre_type_selector.click()
-        # return gt_aria_owns_value, selected_indices
-
-    def scroll_menu(self, wait, gt_aria_owns_value):
+    def scroll_genres(self, gt_aria_owns_value, wait):
         menu_scrollbar = wait.until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} .dx-scrollable-scroll")))
         action_chains = ActionChains(self.app.driver)
