@@ -122,13 +122,18 @@ class projectHelper:
             print("There are not enough checkboxes to click.")
 
         self.scroll_genres(gt_aria_owns_value, wait)
-        num_to_select = random.randint(0, 10)
-        selected_indices = random.sample(range(20),
-                                         num_to_select)  # Randomly choose indices from the first 5 checkboxes
+        checkboxes_11_to_20 = checkboxes[10:20]  # Get checkboxes for elements 11-20
 
-        # Click on the checkboxes at the selected indices
-        for index in selected_indices:
-            checkboxes[index].click()
+        if len(checkboxes_11_to_20) >= 10:
+            # Randomly select a subset of checkboxes (up to 10) from elements 11-20
+            num_to_select_elements_11_to_20 = random.randint(0, 10)
+            selected_indices_elements_11_to_20 = random.sample(range(10), num_to_select_elements_11_to_20)
+
+            # Click on the checkboxes at the selected indices in elements 11-20
+            for index in selected_indices_elements_11_to_20:
+                checkboxes_11_to_20[index].click()
+        else:
+            print("There are not enough checkboxes in elements 11-20 to click.")
 
         self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
 
@@ -139,7 +144,7 @@ class projectHelper:
             EC.visibility_of_element_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} .dx-scrollable-scroll")))
         action_chains = ActionChains(self.app.driver)
         action_chains.move_to_element(menu_scrollbar).perform()
-        action_chains.drag_and_drop_by_offset(menu_scrollbar, 0, 164).perform()
+        action_chains.drag_and_drop_by_offset(menu_scrollbar, 0, 110).perform()
 
     def save_form(self, wait):
         ok_btn = wait.until(
