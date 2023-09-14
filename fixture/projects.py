@@ -103,37 +103,27 @@ class projectHelper:
         total_checkboxes = len(checkboxes)
         print(total_checkboxes)
 
-        # if len(checkboxes) >= 5:
-        #     # Click on the first 5 checkboxes individually
-        #     for i in range(5):
-        #         checkboxes[i].click()
-        # else:
-        #     print("There are not enough checkboxes to click.")
-        if len(checkboxes) >= 10:
-            # Randomly select a subset of checkboxes (between 0 and 5)
-            num_to_select = random.randint(0, 10)
-            selected_indices = random.sample(range(10),
-                                             num_to_select)  # Randomly choose indices from the first 5 checkboxes
+        # Create a list of only the visible checkboxes
+        visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
+        len_visible_checkboxes = len(visible_checkboxes)
+        print(len_visible_checkboxes)
 
-            # Click on the checkboxes at the selected indices
-            for index in selected_indices:
-                checkboxes[index].click()
+        # Check if there are any visible checkboxes
+        if len(visible_checkboxes) > 0:
+            # Set the maximum number of checkboxes to select equal to the number of visible checkboxes
+            max_num_to_select = len(visible_checkboxes)
+
+            # Ensure that at least one checkbox is selected, and the maximum is the number of visible checkboxes
+            num_to_select = random.randint(1, max_num_to_select)
+
+            # Randomly select checkboxes from the list of visible checkboxes
+            selected_checkboxes = random.sample(visible_checkboxes, num_to_select)
+
+            # Click on the selected checkboxes
+            for checkbox in selected_checkboxes:
+                checkbox.click()
         else:
-            print("There are not enough checkboxes to click.")
-
-        self.scroll_genres(gt_aria_owns_value, wait)
-        checkboxes_11_to_20 = checkboxes[10:20]  # Get checkboxes for elements 11-20
-
-        if len(checkboxes_11_to_20) >= 10:
-            # Randomly select a subset of checkboxes (up to 10) from elements 11-20
-            num_to_select_elements_11_to_20 = random.randint(0, 10)
-            selected_indices_elements_11_to_20 = random.sample(range(10), num_to_select_elements_11_to_20)
-
-            # Click on the checkboxes at the selected indices in elements 11-20
-            for index in selected_indices_elements_11_to_20:
-                checkboxes_11_to_20[index].click()
-        else:
-            print("There are not enough checkboxes in elements 11-20 to click.")
+            print("No visible checkboxes found on the page.")
 
         self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
 
@@ -144,7 +134,7 @@ class projectHelper:
             EC.visibility_of_element_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} .dx-scrollable-scroll")))
         action_chains = ActionChains(self.app.driver)
         action_chains.move_to_element(menu_scrollbar).perform()
-        action_chains.drag_and_drop_by_offset(menu_scrollbar, 0, 110).perform()
+        action_chains.drag_and_drop_by_offset(menu_scrollbar, 0, 116).perform()
 
     def save_form(self, wait):
         ok_btn = wait.until(
