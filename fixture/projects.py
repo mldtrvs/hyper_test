@@ -100,135 +100,43 @@ class projectHelper:
 
         checkboxes = wait.until(
             EC.presence_of_all_elements_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=option]")))
-        total_checkboxes = len(checkboxes)
-        print(total_checkboxes)
 
-        # Create a list of only the visible checkboxes
-        visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
-        len_visible_checkboxes = len(visible_checkboxes)
-        print(len_visible_checkboxes)
+        prev_visible_checkboxes = None  # Initialize a variable to track previous visible checkboxes
 
-        # Check if there are any visible checkboxes
-        if len(visible_checkboxes) > 0:
+        while True:
+            # Create a list of only the visible checkboxes
+            visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
+
             # Set the maximum number of checkboxes to select equal to the number of visible checkboxes
             max_num_to_select = len(visible_checkboxes)
 
-            # Ensure that at least one checkbox is selected, and the maximum is the number of visible checkboxes
-            num_to_select = random.randint(1, max_num_to_select)
+            if max_num_to_select >= 1:
+                num_to_select = random.randint(1, max_num_to_select)
+            else:
+                # Set num_to_select to 0 or 1, depending on your requirements
+                num_to_select = 0
 
             # Randomly select checkboxes from the list of visible checkboxes
             selected_checkboxes = random.sample(visible_checkboxes, num_to_select)
 
-            # Click on the selected checkboxes
             for checkbox in selected_checkboxes:
                 checkbox.click()
-        else:
-            print("No visible checkboxes found on the page.")
 
-        while len(visible_checkboxes) > 0:
             # Scroll down to the last visible checkbox
             last_visible_checkbox = visible_checkboxes[-1]
-            self.app.driver.execute_script("arguments[0].scrollIntoView();", last_visible_checkbox)
+            actions = ActionChains(self.app.driver)
+            actions.move_to_element(last_visible_checkbox).perform()
+            time.sleep(5)
 
-            # Wait for a short time to allow the page to load and update visibility
-            time.sleep(1)
+            # Check if the list of visible checkboxes remains the same after scrolling
+            if visible_checkboxes == prev_visible_checkboxes:
+                break  # Exit the loop if there are no more checkboxes to load
 
-            # Update the list of visible checkboxes
-            visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
-
-            if len(visible_checkboxes) > 0:
-                # Set the maximum number of checkboxes to select equal to the number of visible checkboxes
-                max_num_to_select = len(visible_checkboxes)
-
-                # Ensure that at least one checkbox is selected, and the maximum is the number of visible checkboxes
-                num_to_select = random.randint(1, max_num_to_select)
-
-                # Randomly select checkboxes from the list of visible checkboxes
-                selected_checkboxes = random.sample(visible_checkboxes, num_to_select)
-
-                # Click on the selected checkboxes
-                for checkbox in selected_checkboxes:
-                    checkbox.click()
-
-                last_visible_checkbox = visible_checkboxes[-1]
-                self.app.driver.execute_script("arguments[0].scrollIntoView();", last_visible_checkbox)
-
-                # Wait for a short time to allow the page to load and update visibility
-                time.sleep(1)
-
-                # Update the list of visible checkboxes
-                visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
-
-                if len(visible_checkboxes) > 0:
-                    # Set the maximum number of checkboxes to select equal to the number of visible checkboxes
-                    max_num_to_select = len(visible_checkboxes)
-
-                    # Ensure that at least one checkbox is selected, and the maximum is the number of visible checkboxes
-                    num_to_select = random.randint(1, max_num_to_select)
-
-                    # Randomly select checkboxes from the list of visible checkboxes
-                    selected_checkboxes = random.sample(visible_checkboxes, num_to_select)
-
-                    # Click on the selected checkboxes
-                    for checkbox in selected_checkboxes:
-                        checkbox.click()
-                    last_visible_checkbox = visible_checkboxes[-1]
-                    self.app.driver.execute_script("arguments[0].scrollIntoView();", last_visible_checkbox)
-
-                    # Wait for a short time to allow the page to load and update visibility
-                    time.sleep(1)
-
-                    # Update the list of visible checkboxes
-                    visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
-                    if len(visible_checkboxes) > 0:
-                        # Set the maximum number of checkboxes to select equal to the number of visible checkboxes
-                        max_num_to_select = len(visible_checkboxes)
-
-                        # Ensure that at least one checkbox is selected, and the maximum is the number of visible checkboxes
-                        num_to_select = random.randint(1, max_num_to_select)
-
-                        # Randomly select checkboxes from the list of visible checkboxes
-                        selected_checkboxes = random.sample(visible_checkboxes, num_to_select)
-
-                        # Click on the selected checkboxes
-                        for checkbox in selected_checkboxes:
-                            checkbox.click()
-                        last_visible_checkbox = visible_checkboxes[-1]
-                        self.app.driver.execute_script("arguments[0].scrollIntoView();", last_visible_checkbox)
-
-                        # Wait for a short time to allow the page to load and update visibility
-                        time.sleep(1)
-
-                        # Update the list of visible checkboxes
-                        visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
-                        if len(visible_checkboxes) > 0:
-                            # Set the maximum number of checkboxes to select equal to the number of visible checkboxes
-                            max_num_to_select = len(visible_checkboxes)
-
-                            # Ensure that at least one checkbox is selected, and the maximum is the number of visible checkboxes
-                            num_to_select = random.randint(1, max_num_to_select)
-
-                            # Randomly select checkboxes from the list of visible checkboxes
-                            selected_checkboxes = random.sample(visible_checkboxes, num_to_select)
-
-                            # Click on the selected checkboxes
-                            for checkbox in selected_checkboxes:
-                                checkbox.click()
-                            last_visible_checkbox = visible_checkboxes[-1]
-                            self.app.driver.execute_script("arguments[0].scrollIntoView();", last_visible_checkbox)
-
-                            # Wait for a short time to allow the page to load and update visibility
-                            time.sleep(1)
-
-                            # Update the list of visible checkboxes
-                            visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
-
-        # All visible checkboxes have become invisible
-        print("All visible checkboxes have become invisible.")
+            prev_visible_checkboxes = visible_checkboxes  # Update previous visible checkboxes
 
         self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
 
-        return gt_aria_owns_value, total_checkboxes
+        return gt_aria_owns_value
 
     def scroll_genres(self, gt_aria_owns_value, wait):
         menu_scrollbar = wait.until(
