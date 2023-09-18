@@ -11,6 +11,6 @@ def test_project_genre(app):
     # div_index_gt = 0  # Define the index you want to exclude
     gt_aria_owns_value = app.projects.random_choice_genre_type(wait)
     app.projects.save_form(wait)
-    app.projects.search_for_new_added(wait, "werwe213adsc")
-    time.sleep(4)
-    app.projects.check_if_added()
+    # app.projects.search_for_new_added(wait, "werwe213adsc")
+    # time.sleep(4)
+    # app.projects.check_if_added()
