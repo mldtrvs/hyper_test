@@ -4,7 +4,7 @@ import pytest
 import random
 
 from selenium.common import NoSuchElementException
-from selenium.webdriver import ActionChains
+from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -16,7 +16,7 @@ class projectHelper:
         self.app = app
 
     def go_to_projects(self):
-        wait = WebDriverWait(self.app.driver, 10)
+        wait = WebDriverWait(self.app.driver, 20)
         projects = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".panel-list a[href='#grid-276_tab']")))
         projects.click()
         return wait
@@ -91,89 +91,49 @@ class projectHelper:
         gt_aria_owns_value = genre_type_selector.get_attribute("aria-owns")
         print(gt_aria_owns_value)
 
-        # # Get the total number of checkboxes available
-        # checkboxes = wait.until(
-        #     EC.visibility_of_all_elements_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=checkbox]>div")))
-        # total_checkboxes = len(checkboxes)
-        # print(total_checkboxes)
-        # return gt_aria_owns_value, total_checkboxes
+        checkboxes = wait.until(
+            EC.presence_of_all_elements_located((
+                By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=option]")))
+        total_checkboxes = len(checkboxes)
+        print(total_checkboxes)
+        checkboxes_text = []
+        for checkbox in checkboxes:
+            # Using JavaScript to retrieve the text of the checkbox, even if it's not visible
+            checkbox_text = self.app.driver.execute_script("return arguments[0].textContent;", checkbox)
+            checkboxes_text.append(checkbox_text)
 
-        # checkboxes = wait.until(
-        #     EC.presence_of_all_elements_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=option]")))
-        # prev_visible_checkboxes = None
+            # Print the text of all checkboxes
+        for checkbox_text in checkboxes_text:
+            print(checkbox_text)
 
-        while True:
-            # Define checkboxes as the scrollable element
-            checkboxes = self.app.driver.find_elements(By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=option]")
+        # Generate a random number of checkboxes to select
+        min_checkboxes_to_select = 1  # Minimum number of checkboxes to select
+        max_checkboxes_to_select = len(checkboxes_text)  # Maximum number of checkboxes to select
+        num_checkboxes_to_select = random.randint(min_checkboxes_to_select, max_checkboxes_to_select)
 
-            # Filter and store only the visible checkboxes
-            visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
+        # Randomly select checkboxes
+        random_checkboxes = random.sample(checkboxes_text, num_checkboxes_to_select)
 
-            if not visible_checkboxes:
-                # All visible checkboxes have become invisible
-                print("All visible checkboxes have become invisible.")
-                break
+        # Print the randomly selected checkboxes
+        print("Randomly selected checkboxes:")
+        for selected_checkbox in random_checkboxes:
+            print(selected_checkbox)
 
-            # Set the maximum number of checkboxes to select equal to the number of visible checkboxes
-            max_num_to_select = len(visible_checkboxes)
+        # Input the randomly selected text into the genre_type_selector element with "Enter" key presses
+        genre_type_input = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#form-277--1_popup-tab_0_genres_tagbox [role=combobox]")))
+        genre_type_input.click()
 
-            # Ensure that at least one checkbox is selected, and the maximum is the number of visible checkboxes
-            num_to_select = random.randint(1, max_num_to_select)
-            # Randomly select checkboxes from the list of visible checkboxes
-            selected_checkboxes = random.sample(visible_checkboxes, num_to_select)
+        for i, selected_checkbox in enumerate(random_checkboxes):
+            genre_type_input.send_keys(selected_checkbox)
 
-            # Click on the selected checkboxes
-            for checkbox in selected_checkboxes:
-                checkbox.click()
-
-            # Scroll down to the last visible checkbox
-            last_visible_checkbox = visible_checkboxes[2]
-            self.app.driver.execute_script("arguments[0].scrollIntoView();", last_visible_checkbox)
-
-            # Wait for a short time to allow the page to load and update visibility
-            time.sleep(1)
-
-
-        # while True:
-        #     # Create a list of only the visible checkboxes
-        #     visible_checkboxes = [checkbox for checkbox in checkboxes if checkbox.is_displayed()]
-        #
-        #     # Set the maximum number of checkboxes to select equal to the number of visible checkboxes
-        #     max_num_to_select = len(visible_checkboxes)
-        #
-        #     if max_num_to_select >= 1:
-        #         num_to_select = random.randint(1, max_num_to_select)
-        #     else:
-        #         # Set num_to_select to 0 or 1, depending on your requirements
-        #         num_to_select = 1
-        #
-        #     # Randomly select checkboxes from the list of visible checkboxes
-        #     selected_checkboxes = random.sample(visible_checkboxes, num_to_select)
-        #
-        #     for checkbox in selected_checkboxes:
-        #         checkbox.click()
-        #
-        #     # Scroll down to the last visible checkbox
-        #     last_visible_checkbox = visible_checkboxes[1]
-        #     self.app.driver.execute_script("arguments[0].scrollIntoView();", last_visible_checkbox)
-        #     time.sleep(5)
-        #
-        #     # Check if the list of visible checkboxes remains the same after scrolling
-        #     if visible_checkboxes == prev_visible_checkboxes:
-        #         break  # Exit the loop if there are no more checkboxes to load
-        #
-        #     prev_visible_checkboxes = visible_checkboxes  # Update previous visible checkboxes
+            # Press "Enter" after each checkbox, except for the last one
+            if i < len(random_checkboxes) - 1:
+                genre_type_input.send_keys(Keys.ENTER)
 
         self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
 
         return gt_aria_owns_value
-
-    def scroll_genres(self, gt_aria_owns_value, wait):
-        menu_scrollbar = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} .dx-scrollable-scroll")))
-        action_chains = ActionChains(self.app.driver)
-        action_chains.move_to_element(menu_scrollbar).perform()
-        action_chains.drag_and_drop_by_offset(menu_scrollbar, 0, 116).perform()
 
     def save_form(self, wait):
         ok_btn = wait.until(
