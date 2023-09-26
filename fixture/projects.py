@@ -91,45 +91,46 @@ class projectHelper:
         gt_aria_owns_value = genre_type_selector.get_attribute("aria-owns")
         print(gt_aria_owns_value)
 
-        genres = wait.until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=option]")))
+        checkboxes = wait.until(
+            EC.presence_of_all_elements_located((
+                By.CSS_SELECTOR, f"#{gt_aria_owns_value} [role=option]")))
 
-        genres_text = []
-        for genre in genres:
-            # Using JavaScript to retrieve the text of the genre, even if it's not visible
-            genre_text = self.app.driver.execute_script("return arguments[0].textContent;", genre)
-            genres_text.append(genre_text)
+        checkboxes_text = []
+        for checkbox in checkboxes:
+            # Using JavaScript to retrieve the text of the checkbox, even if it's not visible
+            checkbox_text = self.app.driver.execute_script("return arguments[0].textContent;", checkbox)
+            checkboxes_text.append(checkbox_text)
 
-        # Generate a random number of genres to select
-        # min_genres_to_select = 1  # Minimum number of genres to select
-        # max_genres_to_select = len(genres_text)  # Maximum number of genres to select
-        # num_genres_to_select = random.randint(min_genres_to_select, max_genres_to_select)
-        num_genres_to_select = random.randint(1, 6)
+        # Generate a random number of checkboxes to select
+        min_checkboxes_to_select = 1  # Minimum number of checkboxes to select
+        # max_checkboxes_to_select = len(checkboxes_text)  # Maximum number of checkboxes to select
+        # num_checkboxes_to_select = random.randint(min_checkboxes_to_select, max_checkboxes_to_select)
+        num_checkboxes_to_select = random.randint(1, 6)
 
-        # Randomly select genres
-        random_genres = random.sample(genres_text, num_genres_to_select)
+        # Randomly select checkboxes
+        random_checkboxes = random.sample(checkboxes_text, num_checkboxes_to_select)
 
-        # Print the randomly selected genres
-        print("Randomly selected genres:")
-        for random_genre_in in random_genres:
-            print(random_genre_in)
+        # Print the randomly selected checkboxes
+        print("Randomly selected checkboxes:")
+        for selected_checkbox in random_checkboxes:
+            print(selected_checkbox)
 
         # Input the randomly selected text into the genre_type_selector element with "Enter" key presses
         genre_type_input = wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, "#form-277--1_popup-tab_0_genres_tagbox [role=combobox]")))
         genre_type_input.click()
 
-        for i, random_genre_in in enumerate(random_genres):
-            genre_type_input.send_keys(random_genre_in)
+        for i, selected_checkbox in enumerate(random_checkboxes):
+            genre_type_input.send_keys(selected_checkbox)
 
-            # Press "Enter" after each genre, except for the last one
-            if i < len(random_genres):
+            # Press "Enter" after each checkbox
+            if i < len(random_checkboxes):
                 genre_type_input.send_keys(Keys.ENTER)
 
         time.sleep(1)
         self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
 
-        return random_genre_in
+        return gt_aria_owns_value, random_checkboxes
 
     def save_form(self, wait):
         ok_btn = wait.until(
@@ -151,24 +152,32 @@ class projectHelper:
         # print(record_id_number)
         return record_id_number
 
-    def scroll_horizontally_until_visible(self):
-        # Find the element you want to scroll to
-        column = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-276_tab [id=dx-col-64]")
+    def scroll_horizontally_until_visible(self, element):
+        current_scroll_left = 0
+        max_scroll_left = self.app.driver.execute_script(
+            "return document.documentElement.scrollWidth - window.innerWidth;")
 
-        # Check if the element is visible in the viewport
-        if not column.is_displayed():
-            # Scroll the element into view horizontally
-            self.app.driver.execute_script("arguments[0].scrollIntoView(false);", column)
+        while current_scroll_left < max_scroll_left:
+            try:
+                # Try to find the element
+                element.is_displayed()
+                break  # Element is visible, exit the loop
+            except:
+                # Element is not visible, scroll right
+                current_scroll_left += 100  # Adjust the scroll amount as needed
+                self.app.driver.execute_script(f"window.scrollTo({current_scroll_left}, 0);")
+                time.sleep(1)  # Add a sleep to allow the page to load and update
 
     def get_production_type_value(self):
         record_id_number = self.get_record_id()
         print(record_id_number)
 
-        self.scroll_horizontally_until_visible()
-
         wait = WebDriverWait(self.app.driver, 10)
         production_type_value = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-63_tab [data-id='{record_id_number}']")))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, f"[data-url^='form-307-'][data-url$='_popup']")))
+
+        self.scroll_horizontally_until_visible(production_type_value)
+
         production_type_text_out = production_type_value.text
         print(production_type_text_out)
         return production_type_text_out
@@ -179,26 +188,6 @@ class projectHelper:
         else:
             raise AssertionError(
                 f"Tag type values differ. Expected: {production_type_text_in}, Actual: {production_type_text_out}")
-
-    def get_genre_value(self):
-        record_id_number = self.get_record_id()
-        print(record_id_number)
-
-        self.scroll_horizontally_until_visible()
-
-        wait = WebDriverWait(self.app.driver, 10)
-        genre_type_value = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-63_tab [data-id='{record_id_number}']")))
-        genre_type_text_out = genre_type_value.text
-        print(genre_type_text_out)
-        return genre_type_text_out
-
-    def check_selected_genres_match(self, random_genre_in, genre_type_text_out):
-        if random_genre_in in genre_type_text_out:
-            print("Tag type match")
-        else:
-            raise AssertionError(
-                f"Tag type values differ. Expected: {random_genre_in}, Actual: {genre_type_text_out}")
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-276_tab_totalCount")
