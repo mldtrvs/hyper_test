@@ -172,9 +172,9 @@ class projectHelper:
         record_id_number = self.get_record_id()
         print(record_id_number)
 
-        wait = WebDriverWait(self.app.driver, 10)
-        production_type_value = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, f"[data-url^='form-307-'][data-url$='_popup']")))
+        # wait = WebDriverWait(self.app.driver, 10)
+        production_type_value = self.app.driver.find_element(
+            By.CSS_SELECTOR, f"[data-url^='form-307-'][data-url$='_popup']")
 
         self.scroll_horizontally_until_visible(production_type_value)
 
@@ -184,7 +184,7 @@ class projectHelper:
 
     def check_selected_production_type_match(self, production_type_text_in, production_type_text_out):
         if production_type_text_in in production_type_text_out:
-            print("Tag type match")
+            print("Prod. type match")
         else:
             raise AssertionError(
                 f"Tag type values differ. Expected: {production_type_text_in}, Actual: {production_type_text_out}")
