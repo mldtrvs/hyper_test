@@ -152,33 +152,39 @@ class projectHelper:
         # print(record_id_number)
         return record_id_number
 
-    def scroll_horizontally_until_visible(self, element):
-        current_scroll_left = 0
-        max_scroll_left = self.app.driver.execute_script(
-            "return document.documentElement.scrollWidth - window.innerWidth;")
+    def scroll_horizontally_until_production_type(self):
+        production_type_td = self.app.driver.find_element(By.CSS_SELECTOR,
+                                                          f"[data-url^='form-307-'][data-url$='_popup']")
 
-        while current_scroll_left < max_scroll_left:
-            try:
-                # Try to find the element
-                element.is_displayed()
-                break  # Element is visible, exit the loop
-            except:
-                # Element is not visible, scroll right
-                current_scroll_left += 100  # Adjust the scroll amount as needed
-                self.app.driver.execute_script(f"window.scrollTo({current_scroll_left}, 0);")
-                time.sleep(1)  # Add a sleep to allow the page to load and update
+        # Check if the element is visible in the viewport
+        if not production_type_td.is_displayed():
+            # Scroll the element into view horizontally
+            self.app.driver.execute_script("arguments[0].scrollIntoView(false);", production_type_td)
+        return production_type_td
 
-    def get_production_type_value(self):
+    def get_production_type_value(self, wait):
         record_id_number = self.get_record_id()
         print(record_id_number)
 
-        # wait = WebDriverWait(self.app.driver, 10)
-        production_type_value = self.app.driver.find_element(
-            By.CSS_SELECTOR, f"[data-url^='form-307-'][data-url$='_popup']")
+        self.scroll_horizontally_until_production_type()
 
-        self.scroll_horizontally_until_visible(production_type_value)
+        production_type_value = wait.until(EC.visibility_of_element_located((
+            By.CSS_SELECTOR, f"[data-url^='form-307-'][data-url$='_popup']")))
 
-        production_type_text_out = production_type_value.text
+        production_type_text_out = production_type_td.text
+        print(production_type_text_out)
+        return production_type_text_out
+
+    def get_production_type_td_value(self):
+        production_type_td = self.app.driver.find_element(By.CSS_SELECTOR,
+                                                          f"[data-url^='form-307-'][data-url$='_popup']")
+
+        # Check if the element is visible in the viewport
+        if not production_type_td.is_displayed():
+            # Scroll the element into view horizontally
+            self.app.driver.execute_script("arguments[0].scrollIntoView(false);", production_type_td)
+
+        production_type_text_out = production_type_td.text
         print(production_type_text_out)
         return production_type_text_out
 

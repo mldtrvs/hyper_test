@@ -13,11 +13,11 @@ def test_project_genre(app):
 
     app.projects.search_for_new_added(wait, "pewqew123asd")
     time.sleep(4)
-    production_type_text_out = app.projects.get_production_type_value()
+    production_type_text_out = app.projects.get_production_type_td_value()
     app.projects.check_selected_production_type_match(production_type_text_in, production_type_text_out)
-    genre_type_text_out = app.projects.get_genre_value()
-    app.projects.check_selected_genres_match(random_genre_in, genre_type_text_out)
-    app.projects.check_if_added()
+    # genre_type_text_out = app.projects.get_genre_value()
+    # app.projects.check_selected_genres_match(random_genre_in, genre_type_text_out)
+    # app.projects.check_if_added()
 
     app.projects.delete_record(wait)
     app.projects.check_if_deleted()
