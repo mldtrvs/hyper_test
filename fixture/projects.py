@@ -107,30 +107,27 @@ class projectHelper:
         # num_checkboxes_to_select = random.randint(min_checkboxes_to_select, max_checkboxes_to_select)
         num_genre_types_to_select = random.randint(1, 6)
 
-        # Randomly select checkboxes
-        random_genre_types = random.sample(genre_types_text, num_genre_types_to_select)
+        # Randomly select genres
+        random_genre = random.sample(genre_types_text, num_genre_types_to_select)
 
         # Print the randomly selected checkboxes
         print("Randomly selected genre_types:")
-        for selected_genre_type in random_genre_types:
-            print(selected_genre_type)
+        for selected_genre in random_genre:
+            print(selected_genre)
 
         # Input the randomly selected text into the genre_type_selector element with "Enter" key presses
         genre_type_input = wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, "#form-277--1_popup-tab_0_genres_tagbox [role=combobox]")))
         genre_type_input.click()
 
-        for i, selected_genre_type in enumerate(random_genre_types):
-            genre_type_input.send_keys(selected_genre_type)
-
-            # Press "Enter" after each checkbox
-            if i < len(random_genre_types):
-                genre_type_input.send_keys(Keys.ENTER)
+        for i, selected_genre in enumerate(random_genre):
+            genre_type_input.send_keys(selected_genre)
+            genre_type_input.send_keys(Keys.ENTER)  # Press "Enter" after each checkbox
 
         time.sleep(1)
         self.app.driver.find_element(By.CSS_SELECTOR, "#form-277--1_popup-tab_0_image_file-image").click()
 
-        return gt_aria_owns_value, random_genre_types
+        return gt_aria_owns_value, random_genre
 
     def save_form(self, wait):
         ok_btn = wait.until(
@@ -171,19 +168,29 @@ class projectHelper:
         text = record_id.text
         record_id_number = text.split(":")[1].strip()
         # print(record_id_number)
-
+        time.sleep(2)
         project_tr = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-63_tab [data-id='{record_id_number}']")))
+            EC.presence_of_element_located((By.CSS_SELECTOR, f"#grid-276_tab [data-id='{record_id_number}']")))
+        # project_tr = self.app.driver.find_element(By.CSS_SELECTOR, f"#grid-276_tab [data-id='{record_id_number}']")
+        # if not project_tr.is_displayed():
+        #     # Scroll the element into view horizontally
+        #     self.app.driver.execute_script("arguments[0].scrollIntoView(false);", project_tr)
+
         project_tr_text_out = project_tr.text
         print(project_tr_text_out)
         return project_tr_text_out
 
-    def check_selected_tag_type_match(self, random_genre_types, project_tr_text_out):
-        if random_genre_types in project_tr_text_out:
-            print("Genre type match")
-        else:
-            raise AssertionError(
-                f"Genre type values differ. Expected: {random_genre_types}, Actual: {project_tr_text_out}")
+    def check_selected_genres_match(self, random_genre, project_tr_text_out):
+        # Extract the genres from the tuple
+        selected_genre = random_genre[1]
+
+        # Check if each genre is in the project_tr_text_out string
+        for genre in selected_genre:
+            if genre not in project_tr_text_out:
+                return False
+
+        # If all genres are found, return True
+        return True
 
     def check_if_added(self):
         total_records = self.app.driver.find_element(By.ID, "grid-276_tab_totalCount")
