@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+import time
 
 class SessionHelper:
 
@@ -16,6 +17,7 @@ class SessionHelper:
         # projects = wait.until(EC.element_to_be_clickable(By.ID, 'buttonDesktop_10'))
         # projects.click()
         self.app.driver.find_element(By.CSS_SELECTOR, '#buttonDesktop_10').click()
+        time.sleep(5)
 
     # def logout_HGfilm(self):
     #     self.app.driver.find_element(By.XPATH, "//div[@class='dx-context-menu-container-border").click()

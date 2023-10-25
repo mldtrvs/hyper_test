@@ -164,13 +164,10 @@ class projectHelper:
                 f"Prod. type values differ. Expected: {production_type_text_in}, Actual: {production_type_text_out}")
 
     def get_genre_value(self, wait):
-        record_id = self.app.driver.find_element(By.ID, "grid-276_tab_totalId")
-        text = record_id.text
-        record_id_number = text.split(":")[1].strip()
-        # print(record_id_number)
-        time.sleep(2)
+
+        record_id_number = self.get_record_id()
         project_tr = wait.until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, f"#grid-276_tab [data-id='{record_id_number}']")))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, f"#grid-276_tab [data-id='{record_id_number}']")))
         # project_tr = self.app.driver.find_element(By.CSS_SELECTOR, f"#grid-276_tab [data-id='{record_id_number}']")
         # if not project_tr.is_displayed():
         #     # Scroll the element into view horizontally
@@ -226,3 +223,12 @@ class projectHelper:
         else:
             # Assertion failed, handle the failure or raise an exception
             raise AssertionError(f"Expected {expected_count} record, but found {total_records_value} records.")
+
+    def get_record_id(self):
+        self.app.driver.find_element(By.CSS_SELECTOR,
+                                     "#grid-276_tab [role=presentation] [aria-rowindex='1']").click()
+        record_id = self.app.driver.find_element(By.ID, "grid-276_tab_totalId")
+        text = record_id.text
+        record_id_number = text.split(":")[1].strip()
+        print(record_id_number)
+        return record_id_number
