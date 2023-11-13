@@ -11,9 +11,9 @@ def test_addtag(app):
 
         app.tags.search_for_new_added(wait, "ethet34fev")
         time.sleep(4)
+        app.tags.check_if_added()
         tag_type_text_out = app.tags.get_tag_type_value()
         app.tags.check_selected_tag_type_match(tag_type_text_in, tag_type_text_out)
-        app.tags.check_if_added()
 
         app.tags.edit(wait, "mnmndh34fgd")
         app.tags.search_for_new_added(wait, "mnmndh34fgd")

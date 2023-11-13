@@ -43,7 +43,7 @@ class tagsHelper:
         ok_btn.click()
 
     def search_for_new_added(self, wait, tag_name):
-        wait.until(EC.invisibility_of_element((By.CSS_SELECTOR, "form-62--1_popup")))
+        # wait.until(EC.invisibility_of_element((By.CSS_SELECTOR, "form-62--1_popup")))
         search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-63_tab [role=textbox]")
         search_input.click()
         search_input.clear()
