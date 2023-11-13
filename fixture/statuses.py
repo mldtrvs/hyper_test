@@ -46,8 +46,10 @@ class statusesHelper:
             EC.visibility_of_element_located((By.ID, "form-16--1_popup_save-button")))
         ok_btn.click()
 
-    def search_for_new_added(self, status_name):
-        search_input = self.app.driver.find_element(By.CSS_SELECTOR, "#grid-15_tab [role=textbox]")
+    def search_for_new_added(self, wait, status_name):
+        wait.until(EC.invisibility_of_element((By.CSS_SELECTOR, "form-15--1_popup")))
+        search_input = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#grid-15_tab [role=textbox]")))
         search_input.click()
         search_input.clear()
         search_input.send_keys(status_name)
